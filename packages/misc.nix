@@ -1,0 +1,18 @@
+{ inputs, pkgs, lib, config, ... }:
+
+{
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+  # Wine:
+    wineWowPackages.stable
+    winetricks
+    # wineWowPackages.waylandFull
+    bottles
+
+
+
+
+
+  ];
+}
