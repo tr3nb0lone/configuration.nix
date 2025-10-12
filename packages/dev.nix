@@ -6,6 +6,7 @@
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
+    go
     autoconf
     automake
     cmake

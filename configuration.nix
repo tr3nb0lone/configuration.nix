@@ -30,7 +30,7 @@
  # YAY! you now know where I live.
  time.timeZone = "Africa/Addis_Ababa";
  
-# get paid packages
+ # get paid packages
  nixpkgs.config.allowUnfree = true;
 
 # get `deprecated / insecure / unmaintained` packages:
@@ -46,7 +46,7 @@ services.xserver = {
 };
 
 
-  # Configure keymap(s) in X11
+ # Configure keymap(s) in X11
  services.xserver.xkb.layout = "us";
  services.xserver.xkb.options = "eurosign:e,caps:escape";
 
@@ -83,8 +83,8 @@ services.pipewire = {
  users.defaultUserShell = pkgs.zsh;
  programs.zsh.enable = true;
  programs.zsh.shellInit = ''
- # eval "$(zoxide init zsh)"
- export COOL=1
+        # eval "$(zoxide init zsh)"
+	bindkey -s ^f "tmux-sessionizer\n"
  '';
 
 # Enable common container config files in /etc/containers
@@ -133,7 +133,7 @@ environment.systemPackages = with pkgs; [
 	  git
 	  kitty
 	  wezterm
-	  hack-font
+	  # hack-font
 	  rofi
 	  tmux
 	  polybar
@@ -155,14 +155,12 @@ environment.systemPackages = with pkgs; [
 	  chromium
 	  vlc
 	  pavucontrol
+	  nerd-fonts.hack
+	  pulseaudio
 	  dunst
 	  bluez
 	  bluez-tools
 ];
-
-  fonts.packages = with pkgs; [
-    nerd-fonts.hack
-  ];
 
   # picomm
   services.picom.enable = true;
