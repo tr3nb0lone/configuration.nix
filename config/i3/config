@@ -159,6 +159,7 @@ bindsym $mod+P exec flameshot gui
 # Utils
 bindsym $mod+m exec --no-startup-id $HOME/dotfiles.nix/config/utils/monitor.sh 
 bindsym $mod+Shift+m exec --no-startup-id $HOME/dotfiles.nix/config/utils/laptop.sh 
+bindsym $mod+Shift+s exec --no-startup-id $HOME/dotfiles.nix/config/utils/setup.sh
 
 # Clipboard x Password:
 exec_always xfce4-clipman --no-startup-id &

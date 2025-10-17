@@ -66,6 +66,7 @@ services.pipewire = {
     enable = true;
     powerOnBoot = true;
   };
+  services.blueman.enable = true;
 
   # Enable touchpad
   services.libinput.enable = true;
