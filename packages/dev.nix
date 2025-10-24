@@ -33,7 +33,15 @@
     pkgs.zig
     nasm
     ruby
-
+ # Dev utils
+  docker_28
+  wezterm
+  fzf
+  zoxide
+  docker-compose
+  podman-compose
+  podman-desktop
+  git
     # DB related:
     sqlitebrowser
     dbeaver-bin

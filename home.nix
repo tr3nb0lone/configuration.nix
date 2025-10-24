@@ -113,7 +113,8 @@ shellAliases = {
 	v = "nvim";
 	z = "zoxide";
 	clone = "git clone";
-        # nix:	
+        
+	# nix:	
 	rebuild = "sudo nixos-rebuild switch --flake ~/dotfiles.nix#NIX";
 	purge = "sudo nix-collect-garbage -d";
 	develop = "nix develop -c $SHELL";
@@ -143,26 +144,59 @@ gtk = {
       package = pkgs.papirus-icon-theme;
     };
 
+    gtk2.extraConfig = ''
+	 gtk-theme-name="Orchis-Purple-Dark"
+	 gtk-icon-theme-name="Papirus-Dark"
+	 gtk-font-name="Google Sans Code Medium 12"
+	 gtk-cursor-theme-name="Adwaita"
+	 gtk-cursor-theme-size=0
+	 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+	 gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+	 gtk-button-images=0
+	 gtk-menu-images=0
+	 gtk-enable-event-sounds=1
+	 gtk-enable-input-feedback-sounds=1
+	 gtk-xft-antialias=1
+	 gtk-xft-hinting=1
+	 gtk-xft-hintstyle="hintmedium"
+	 gtk-xft-rgba="none"
+	'';
+
     theme = {
-      name = "Adwaita-Dark";
-      package = pkgs.gnome-themes-extra;
+      name = "Orchis-Purple-Dark";
+      package = pkgs.orchis-theme;
     };
 
     gtk3.extraConfig = {
       Settings = ''
         gtk-application-prefer-dark-theme=1
+	gtk-theme-name="Orchis-Purple-Dark"
       '';
     };
 
     gtk4.extraConfig = {
       Settings = ''
         gtk-application-prefer-dark-theme=1
+	gtk-theme-name="Orchis-Purple-Dark"
       '';
     };
   };
 
-# Font - yea, Google had it's way into my PC:
-fonts.fontconfig.enable = true;
+
+# manage removable media:
+services.udiskie = {
+    enable = true;
+    automount = true;
+    notify = true;
+    tray = "always";
+    settings = {
+        # workaround for https://github.com/nix-community/home-manager/issues/632
+        program_options = {
+            # replace with your favorite file manager
+            file_manager = "${pkgs.nemo-with-extensions}/bin/nemo";
+        };
+    };
+};
 
 home.packages = with pkgs; [
 	ripgrep
@@ -178,7 +212,8 @@ home.packages = with pkgs; [
 	handbrake
 	material-design-icons
 	google-fonts
-        # (google-fonts.override { fonts = [ "Google Sans Code" ]; })
+	gnome-themes-extra
+	font-awesome
 
   ];
 }

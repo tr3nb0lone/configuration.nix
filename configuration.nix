@@ -84,7 +84,7 @@ services.pipewire = {
  users.defaultUserShell = pkgs.zsh;
  programs.zsh.enable = true;
  programs.zsh.shellInit = ''
-        # eval "$(zoxide init zsh)"
+        eval "$(zoxide init zsh)"
 	bindkey -s ^f "tmux-sessionizer\n"
  '';
 
@@ -113,10 +113,27 @@ virtualisation.docker = {
     };
   };
 };
+  # auto-mount and external disk management:
+  services.udisks2.enable = true;
 
   # Virtualization:
-  virtualisation.libvirtd.enable = true;
+ virtualisation.libvirtd = {
+    enable = true;
+
+    # Enable TPM emulation (for Windows 11)
+    qemu = {
+      swtpm.enable = true;
+      ovmf.packages = [ pkgs.OVMFFull.fd ];
+    };
+  };
+
+  # Enable USB redirection
+  virtualisation.spiceUSBRedirection.enable = true;
   programs.virt-manager.enable = true;
+
+   # Allow VM management
+   users.groups.libvirtd.members = [ "tr3n" ];
+   users.groups.kvm.members = [ "tr3n" ];
 
 
   # never un-comment the following line, screw Firefox
@@ -127,13 +144,7 @@ virtualisation.docker = {
 environment.systemPackages = with pkgs; [
 	  neovim
 	  librewolf
-	  docker_28
-	  docker-compose
-	  podman-compose
-	  podman-desktop
-	  git
 	  kitty
-	  wezterm
 	  # hack-font
 	  rofi
 	  tmux
@@ -148,10 +159,7 @@ environment.systemPackages = with pkgs; [
 	  feh
 	  flameshot
 	  picom
-	  exegol
 	  xfce.thunar
-	  fzf
-	  zoxide
 	  obs-studio
 	  chromium
 	  vlc
@@ -160,7 +168,13 @@ environment.systemPackages = with pkgs; [
 	  pulseaudio
 	  dunst
 	  bluez
+	  lxappearance
 	  bluez-tools
+	  win-virtio
+  	 gnome-boxes # VM management
+         dnsmasq # VM networking
+         phodav # (optional) Share files with guest VMs
+
 ];
 
   # picomm

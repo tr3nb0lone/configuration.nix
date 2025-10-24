@@ -1,9 +1,5 @@
 {
     description = "NixOS, a new chapter.";
-   # prevent the annoying message
-    # nixConfig = {
-    #  warn-dirty = false;
-    # }
 
     inputs = {
     # nixpkgs
@@ -142,44 +138,7 @@ nixosConfigurations = {
           };
         }
      ];
+   };
   };
-};
-
-   #  nixosConfigurations.NIX = nixpkgs.lib.nixosSystem {
-   #      system = "x86_64-linux";
-   #      modules = [
-   #          ./configuration.nix
-   #   # ./packages/default.nix
-   #   chaotic.nixosModules.default
-   #          home-manager.nixosModules.home-manager
-   #          {
-   #              home-manager = {
-   #                  useGlobalPkgs = true;
-   #                  useUserPackages = true;
-   #                  users.tr3n = import ./home.nix;
-   #                  backupFileExtension = "backup";
-   #       };
-   #     }
-   #   ];
-   # };
  };
-
-# outputs = { self, nixpkgs, home-manager, ...}: {
-#     nixosConfigurations.NIX = nixpkgs.lib.nixosSystem {
-#         system = "x86_64-linux";
-#         modules = [
-#             ./configuration.nix
-#             home-manager.nixosModules.home-manager
-#             {
-#                 home-manager = {
-#                     useGlobalPkgs = true;
-#                     useUserPackages = true;
-#                     users.tr3n = import ./home.nix;
-#                     backupFileExtension = "backup";
-#          };
-#        }
-#      ];
-#    };
-#  };
-
 }
