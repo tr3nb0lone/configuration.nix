@@ -145,7 +145,6 @@ environment.systemPackages = with pkgs; [
 	  neovim
 	  librewolf
 	  kitty
-	  # hack-font
 	  rofi
 	  tmux
 	  polybar
@@ -164,11 +163,12 @@ environment.systemPackages = with pkgs; [
 	  chromium
 	  vlc
 	  pavucontrol
-	  nerd-fonts.hack
 	  pulseaudio
 	  dunst
 	  bluez
 	  lxappearance
+	  nerd-fonts.hack
+	  nerd-fonts.jetbrains-mono
 	  bluez-tools
 	  win-virtio
   	 gnome-boxes # VM management

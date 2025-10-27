@@ -1,4 +1,4 @@
-{ config, inputs, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
 # dotfiles mania
 let
@@ -101,7 +101,7 @@ programs.zsh = {
   enable = true;
   oh-my-zsh = {
     enable = true;
-    plugins = [ "git" "thefuck" ];
+    plugins = [ "git" "thefuck" "zsh-fzf-history-search" ];
     theme = "robbyrussell";
   };
   history.size = 50000;
@@ -208,12 +208,12 @@ home.packages = with pkgs; [
 	oh-my-zsh
 	lazygit
 	lazydocker
-	gopls
 	handbrake
 	material-design-icons
 	google-fonts
 	gnome-themes-extra
 	font-awesome
+	
 
   ];
 }
