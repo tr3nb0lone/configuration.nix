@@ -25,8 +25,8 @@ in
     # Git.config
     programs.git = {
 	enable = true;
-	userName = "tr3nb0lone";
-	userEmail = "tr3nacetate@proton.me";
+	settings.user.name = "tr3nb0lone";
+	settings.user.email = "tr3nacetate@proton.me";
   };
 
 # tmux:

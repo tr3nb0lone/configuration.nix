@@ -47,7 +47,7 @@
     aha
     pciutils
     clinfo
-    glxinfo
+    mesa-demos # replacement for glxinfo
     vulkan-tools
     acpi
     inetutils
@@ -57,7 +57,6 @@
     e2fsprogs
     tldr
     sshpass
-    python312Packages.pyhanko
     lm_sensors
     libnotify
     zenity
@@ -66,14 +65,16 @@
     handbrake
     lsof
     firefox-bin
+    exegol
     
     # remote-access
     # evil-winrm-patched
     openssh
-    freerdp3
+    freerdp
     rdesktop
     remmina
 
+    # python312Packages.pyhanko
 
   ];
 }

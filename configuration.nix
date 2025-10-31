@@ -34,7 +34,7 @@
  nixpkgs.config.allowUnfree = true;
 
 # get `deprecated / insecure / unmaintained` packages:
- nixpkgs.config.permittedInsecurePackages = [ "python-2.7.18.8" ];
+ nixpkgs.config.permittedInsecurePackages = [ "python-2.7.18.8" "python-2.7.18.12"];
 
 # Display manager:
 services.displayManager.ly.enable = true;
@@ -120,11 +120,11 @@ virtualisation.docker = {
  virtualisation.libvirtd = {
     enable = true;
 
-    # Enable TPM emulation (for Windows 11)
-    qemu = {
-      swtpm.enable = true;
-      ovmf.packages = [ pkgs.OVMFFull.fd ];
-    };
+    # Enable TPM emulation (for Windows 11) - not needed anymore
+    # qemu = {
+    #   swtpm.enable = true;
+    #   ovmf.packages = [ pkgs.OVMFFull.fd ];
+    # };
   };
 
   # Enable USB redirection
@@ -170,7 +170,7 @@ environment.systemPackages = with pkgs; [
 	  nerd-fonts.hack
 	  nerd-fonts.jetbrains-mono
 	  bluez-tools
-	  win-virtio
+          virtio-win # replacement of win-virtio
   	 gnome-boxes # VM management
          dnsmasq # VM networking
          phodav # (optional) Share files with guest VMs
@@ -188,6 +188,7 @@ environment.systemPackages = with pkgs; [
 
   nix.settings.experimental-features  = [ "nix-command" "flakes" ];
   system.stateVersion = "25.05";
+  # system.stateVersion = "unstable";
 
 }
 

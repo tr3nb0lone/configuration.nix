@@ -3,11 +3,12 @@
 
     inputs = {
     # nixpkgs
-    nixpkgs.url = "nixpkgs/nixos-25.05";
+    nixpkgs.url = "nixpkgs/nixos-unstable"; # yea, live life on the edge.
 
     # Home-Manager:
     home-manager = {
-        url = "github:nix-community/home-manager/release-25.05";
+	# HM follows unstable:
+        url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -133,12 +134,12 @@ nixosConfigurations = {
                   overlays = [
                     # impacket overlay
                     # (import nixos/overlays/impacket-overlay)
-                ];
-             };
-          };
-        }
-     ];
-   };
+                 ];
+              };
+           };
+         }
+       ];
+      };
+    };
   };
- };
 }
