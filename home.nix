@@ -3,6 +3,7 @@
 # dotfiles mania
 let
   dotfiles = "${config.home.homeDirectory}/dotfiles.nix/config";
+  # dotfiles = "${config.home.homeDirectory}/configuration.nix/config";
   create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
 
   # Standard .config/directory
@@ -90,6 +91,10 @@ programs.tmux = {
 	'';
   };
 
+programs.fzf = {
+	enable = true;
+	enableZshIntegration = true;
+   };
 
 programs.zoxide = {
       enable = true;
@@ -97,11 +102,16 @@ programs.zoxide = {
       enableZshIntegration = true;
   };
 
+programs.yazi = {
+	enable = true;
+	enableZshIntegration = true;
+ };
+
 programs.zsh = {
   enable = true;
   oh-my-zsh = {
     enable = true;
-    plugins = [ "git" "thefuck" "zsh-fzf-history-search" ];
+    plugins = [ "git" "fzf" ];
     theme = "robbyrussell";
   };
   history.size = 50000;
@@ -116,6 +126,7 @@ shellAliases = {
         
 	# nix:	
 	rebuild = "sudo nixos-rebuild switch --flake ~/dotfiles.nix#NIX";
+	# rebuild = "sudo nixos-rebuild switch --flake ~/configuration.nix#NIX";
 	purge = "sudo nix-collect-garbage -d";
 	develop = "nix develop -c $SHELL";
 	sound = "systemctl --user restart pipewire.service pipewire-pulse.service";

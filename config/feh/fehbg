@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --bg-fill ~/dotfiles.nix/config/wallpapers/dark-waves.jpg
+feh --no-fehbg --bg-fill ~/configuration.nix/config/wallpapers/dark-waves.jpg

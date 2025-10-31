@@ -7,8 +7,8 @@
   # Wine:
     wineWowPackages.stable
     winetricks
-    # wineWowPackages.waylandFull
     bottles
+    xorg.xhost
 
 
 

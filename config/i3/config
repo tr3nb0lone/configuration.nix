@@ -139,13 +139,13 @@ client.placeholder      #8B008B #8B008B #8B008B #8B008B   #8B008B
 client.background       #ffffff
 
 # feh - Image utils 
-exec_always --no-startup-id sh $HOME/dotfiles.nix/config/feh/fehbg
+exec_always --no-startup-id sh $HOME/configuration.nix/config/feh/fehbg
 
 
 # picom:
-exec_always --no-startup-id picom -b --config $HOME/dotfiles.nix/config/picom/picom.conf
+exec_always --no-startup-id picom -b --config $HOME/configuration.nix/config/picom/picom.conf
 
-exec_always --no-startup-id $HOME/dotfiles.nix/config/polybar/launch.sh
+exec_always --no-startup-id $HOME/configuration.nix/config/polybar/launch.sh
 
 # Resize Bindings
 bindsym $mod+Ctrl+Shift+Right resize shrink width 10 px or 10 ppt
@@ -157,9 +157,9 @@ bindsym $mod+Ctrl+Shift+Left resize grow width 10 px or 10 ppt
 bindsym $mod+P exec flameshot gui
 
 # Utils
-bindsym $mod+m exec --no-startup-id $HOME/dotfiles.nix/config/utils/monitor.sh 
-bindsym $mod+Shift+m exec --no-startup-id $HOME/dotfiles.nix/config/utils/laptop.sh 
-bindsym $mod+Shift+s exec --no-startup-id $HOME/dotfiles.nix/config/utils/setup.sh
+bindsym $mod+m exec --no-startup-id $HOME/configuration.nix/config/utils/monitor.sh 
+bindsym $mod+Shift+m exec --no-startup-id $HOME/configuration.nix/config/utils/laptop.sh 
+bindsym $mod+Shift+s exec --no-startup-id $HOME/configuration.nix/config/utils/setup.sh
 
 # Clipboard x Password:
 exec_always xfce4-clipman --no-startup-id &

@@ -14,14 +14,12 @@
     onesixtyone
     whois
     eyewitness
-    # aquatone
     rpcbind
     samba
     smbmap
     enum4linux-ng
-    wireshark 
+    # wireshark 
     smbclient-ng
-    # SMB_Killer
 
   ];
 }
