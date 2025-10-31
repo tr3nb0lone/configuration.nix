@@ -42,6 +42,7 @@
   podman-compose
   podman-desktop
   git
+  gh
     # DB related:
     sqlitebrowser
     dbeaver-bin

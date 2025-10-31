@@ -2,8 +2,7 @@
 
 # dotfiles mania
 let
-  dotfiles = "${config.home.homeDirectory}/dotfiles.nix/config";
-  # dotfiles = "${config.home.homeDirectory}/configuration.nix/config";
+  dotfiles = "${config.home.homeDirectory}/configuration.nix/config";
   create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
 
   # Standard .config/directory
@@ -125,8 +124,7 @@ shellAliases = {
 	clone = "git clone";
         
 	# nix:	
-	rebuild = "sudo nixos-rebuild switch --flake ~/dotfiles.nix#NIX";
-	# rebuild = "sudo nixos-rebuild switch --flake ~/configuration.nix#NIX";
+	rebuild = "sudo nixos-rebuild switch --flake ~/configuration.nix#NIX";
 	purge = "sudo nix-collect-garbage -d";
 	develop = "nix develop -c $SHELL";
 	sound = "systemctl --user restart pipewire.service pipewire-pulse.service";
@@ -200,13 +198,6 @@ services.udiskie = {
     automount = true;
     notify = true;
     tray = "always";
-    settings = {
-        # workaround for https://github.com/nix-community/home-manager/issues/632
-        program_options = {
-            # replace with your favorite file manager
-            file_manager = "${pkgs.nemo-with-extensions}/bin/nemo";
-        };
-    };
 };
 
 home.packages = with pkgs; [
@@ -214,17 +205,12 @@ home.packages = with pkgs; [
 	nodejs
 	gcc
 	bun
-	zsh
-	thefuck
-	oh-my-zsh
 	lazygit
 	lazydocker
 	handbrake
 	material-design-icons
-	google-fonts
 	gnome-themes-extra
 	font-awesome
-	
 
   ];
 }
