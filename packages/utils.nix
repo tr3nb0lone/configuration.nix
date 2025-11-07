@@ -63,6 +63,7 @@
     restic
     rsync
     handbrake
+    qdirstat
     lsof
     firefox-bin
     exegol

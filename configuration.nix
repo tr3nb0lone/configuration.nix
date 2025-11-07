@@ -116,16 +116,11 @@ virtualisation.docker = {
   # auto-mount and external disk management:
   services.udisks2.enable = true;
 
-  # Virtualization:
- virtualisation.libvirtd = {
-    enable = true;
+  # https://blog.kaorubb.org/en/posts/nixos-fix-could-not-start-dynamically-linked-executable/
+  programs.nix-ld.enable = true;
 
-    # Enable TPM emulation (for Windows 11) - not needed anymore
-    # qemu = {
-    #   swtpm.enable = true;
-    #   ovmf.packages = [ pkgs.OVMFFull.fd ];
-    # };
-  };
+  # Virtualization:
+ virtualisation.libvirtd = { enable = true; };
 
   # Enable USB redirection
   virtualisation.spiceUSBRedirection.enable = true;

@@ -10,6 +10,7 @@
     autoconf
     automake
     cmake
+    clang-tools
     cargo
     dotnet-sdk_8
     dotnet-runtime_8
