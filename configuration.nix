@@ -117,7 +117,7 @@ virtualisation.docker = {
   services.udisks2.enable = true;
 
   # https://blog.kaorubb.org/en/posts/nixos-fix-could-not-start-dynamically-linked-executable/
-  programs.nix-ld.enable = true;
+  # programs.nix-ld.enable = true; # might be useless as of now
 
   # Virtualization:
  virtualisation.libvirtd = { enable = true; };

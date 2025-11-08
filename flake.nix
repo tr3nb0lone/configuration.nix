@@ -11,6 +11,10 @@
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    # nix-ld:
+    nix-ld.url = "github:Mic92/nix-ld";
+    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
     # Chaotic's Nyx
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
@@ -83,6 +87,7 @@
 outputs = {
 	  self, 
 	  nixpkgs, 
+	  nix-ld, 
 	  home-manager,
 	  chaotic, 
 	  flake-parts, 
@@ -116,7 +121,8 @@ nixosConfigurations = {
             ./configuration.nix
 	    chaotic.nixosModules.default
             home-manager.nixosModules.home-manager
-			    
+	    nix-ld.nixosModules.nix-ld
+			{ programs.nix-ld.dev.enable = true; }	    
 		    {
               imports = [ inputs.home-manager.nixosModules.home-manager ];
               home-manager = {
