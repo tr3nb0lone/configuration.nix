@@ -1,2 +1,3 @@
 #!/bin/sh
-feh --no-fehbg --bg-fill ~/configuration.nix/config/wallpapers/dark-waves.jpg
+# feh --no-fehbg --bg-fill ~/configuration.nix/config/wallpapers/dark-waves.jpg
+feh --no-fehbg --bg-fill ~/configuration.nix/config/wallpapers/Purple_Fluid.png

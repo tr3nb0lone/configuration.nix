@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 {
   imports =
@@ -186,4 +186,3 @@ environment.systemPackages = with pkgs; [
   # system.stateVersion = "unstable";
 
 }
-

@@ -9,6 +9,7 @@ let
   configs = {
     i3 = "i3";
     nvim = "nvim";
+    wezterm = "wezterm";
     rofi = "rofi";
     kitty = "kitty";
     picom = "picom";
@@ -64,6 +65,9 @@ programs.tmux = {
 	# Switch sessions effortlessly:
 	bind-key -n 'M-]' switch-client -n
 	bind-key -n 'M-[' switch-client -p
+	
+	# effortlessly reload config (might be useless as a result of HM)
+	bind r source-file ~/.tmux.conf \; display "Config reloaded!"
 
 	# General
 	setw -g mode-keys vi
@@ -80,11 +84,6 @@ programs.tmux = {
 	set -g status-right ""
 	set -g renumber-windows on
 	set -g status-left-length 76 # could be any number :)
-
-	# Kitty + yazi compatibility:
-	set -g allow-passthrough on
-	set -ga update-environment TERM
-	set -ga update-environment TERM_PROGRAM
 
 	# Base16 Black Metal
 	# Scheme author: metalelf0 (https://github.com/metalelf0)
@@ -110,9 +109,6 @@ programs.tmux = {
 	set-option -g display-panes-active-colour "#999999"
 	set-option -g display-panes-colour "#121212"
 
-	# clock
-	set-window-option -g clock-mode-colour "#888888"
-
 	# copy mode highlight
 	set-window-option -g mode-style "fg=#999999,bg=#222222"
 
@@ -125,6 +121,8 @@ programs.tmux = {
 	# style for command messages
 	set-option -g message-command-style "fg=#999999,bg=#222222"
 
+	# Source extra config(s)
+	source-file ~/configuration.nix/config/tmux/extra.conf
 	'';
   };
 
@@ -267,12 +265,20 @@ home.packages = with pkgs; [
 	nodejs
 	gcc
 	bun
+	deno
+	webkitgtk_6_0
 	lazygit
 	lazydocker
 	handbrake
 	material-design-icons
 	gnome-themes-extra
 	font-awesome
+
+	# LSPs
+	bash-language-server
+	lua-language-server
+	gopls
+	nil
 
   ];
 }

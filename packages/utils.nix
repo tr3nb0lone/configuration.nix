@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, config, ... }:
+{ pkgs, ... }:
 
 {
   # List packages installed in system profile. To search, run:
@@ -7,6 +7,8 @@
     # a big list of unsorted packages I use:
     netcat-gnu
     file
+    xclip
+    wl-clipboard-x11
     gparted
     tree
     wget
