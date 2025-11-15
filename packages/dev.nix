@@ -18,7 +18,10 @@
     mono
     jdk
     maven
-    python313
+    python311
+    # python313
+    python313Packages.colorama
+    python313Packages.pycryptodome
     python313Packages.pip
     python313Packages.pipx
     python27Full

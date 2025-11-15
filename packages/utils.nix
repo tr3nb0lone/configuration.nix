@@ -24,6 +24,8 @@
     socat
     rlwrap
     dfc
+    dig
+    host
     zsh
     openvpn
     macchanger

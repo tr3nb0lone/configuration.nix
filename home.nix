@@ -279,6 +279,7 @@ home.packages = with pkgs; [
 	lua-language-server
 	gopls
 	nil
+	pyright
 
   ];
 }

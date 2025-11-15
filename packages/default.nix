@@ -3,11 +3,10 @@
 { inputs, pkgs, lib, config, ... }:
 
 {
-  # disable default packages
-  # environment.defaultPackages = [];
 
   imports = [
     # General programs
+    ./utils.nix
 
     # Development 
     ./dev.nix
@@ -18,8 +17,8 @@
     ./web.nix
 
     # misc (?)
-    ./utils.nix
-
+    ./misc.nix
+	
 
 
   ];

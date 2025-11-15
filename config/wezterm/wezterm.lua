@@ -7,7 +7,7 @@ local config = {
 	},
 
 	font_size = 12.5,
-	font = wezterm.font ('Google Sans Code', { weight = 'Medium' }),
+	font = wezterm.font ('Google Sans Code', { weight = 'DemiBold' }),
 
 	-- color_scheme = 'Belge (terminal.sexy)',
 
@@ -16,6 +16,7 @@ local config = {
 	window_background_opacity = 0.899,
 
 	cursor_thickness = "1px",
+	audible_bell = "Disabled",
 }
 
 return config
