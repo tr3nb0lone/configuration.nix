@@ -1,0 +1,7 @@
+[font]
+family = "Iosevka"
+normal = ["Iosevka Extra Bold"]
+size = 13.5
+style = "ExtraBold"
+hinting = "full"
+edging = "antialias"

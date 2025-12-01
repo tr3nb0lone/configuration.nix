@@ -7,7 +7,8 @@ local config = {
 	},
 
 	font_size = 12.5,
-	font = wezterm.font ('Google Sans Code', { weight = 'DemiBold' }),
+	font = wezterm.font ('Iosevka ExtraBold', {weight = 'Regular'}),
+	-- font = wezterm.font ('Iosevka Medium', { weight = 'DemiBold' }),
 
 	-- color_scheme = 'Belge (terminal.sexy)',
 
@@ -17,6 +18,8 @@ local config = {
 
 	cursor_thickness = "1px",
 	audible_bell = "Disabled",
+
+	warn_about_missing_glyphs = false
 }
 
 return config

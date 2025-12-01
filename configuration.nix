@@ -11,6 +11,13 @@
  boot.loader.systemd-boot.enable = true;
  boot.loader.efi.canTouchEfiVariables = true;
 
+  # Clean /tmp on reboot
+  boot.tmp = {
+    cleanOnBoot = true;
+    useTmpfs = true;
+    tmpfsSize = "300%";
+  };
+
  networking.hostName = "NIX";
  networking.networkmanager.enable = true;
 
@@ -30,8 +37,10 @@
  # YAY! you now know where I live.
  time.timeZone = "Africa/Addis_Ababa";
  
- # get paid packages
+ # get paid and unsupported packages
  nixpkgs.config.allowUnfree = true;
+ nixpkgs.config.allowUnsupportedSystem = true;
+ nixpkgs.config.microsoftVisualStudioLicenseAccepted = true;
 
 # get `deprecated / insecure / unmaintained` packages:
  nixpkgs.config.permittedInsecurePackages = [ "python-2.7.18.8" "python-2.7.18.12"];
@@ -43,6 +52,7 @@ services.xserver = {
     autoRepeatDelay = 200;
     autoRepeatInterval = 35;
     windowManager.i3.enable = true;
+    desktopManager.xfce.enable = true;
 };
 
 
@@ -85,7 +95,8 @@ services.pipewire = {
  programs.zsh.enable = true;
  programs.zsh.shellInit = ''
         eval "$(zoxide init zsh)"
-	bindkey -s ^f "tmux-sessionizer\n"
+	eval "$(fzf --zsh)"
+	bindkey -s ^f "sessionizer.sh\n"
  '';
 
 # Enable common container config files in /etc/containers
@@ -131,9 +142,6 @@ virtualisation.docker = {
    users.groups.kvm.members = [ "tr3n" ];
 
 
-  # never un-comment the following line, screw Firefox
-  # programs.firefox.enable = true;
-
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
 environment.systemPackages = with pkgs; [
@@ -149,7 +157,7 @@ environment.systemPackages = with pkgs; [
 	  arandr
 	  joplin-desktop
 	  networkmanagerapplet
-	  xfce.xfce4-clipman-plugin
+	  # xfce.xfce4-clipman-plugin
 	  feh
 	  flameshot
 	  picom
@@ -162,15 +170,36 @@ environment.systemPackages = with pkgs; [
 	  dunst
 	  bluez
 	  lxappearance
-	  nerd-fonts.hack
-	  nerd-fonts.jetbrains-mono
 	  bluez-tools
+	  font-awesome
+          nerd-fonts.jetbrains-mono
           virtio-win # replacement of win-virtio
   	 gnome-boxes # VM management
          dnsmasq # VM networking
          phodav # (optional) Share files with guest VMs
 
 ];
+  # font setting:
+  fonts.packages = with pkgs; [
+	noto-fonts
+	noto-fonts-color-emoji
+	inter
+	liberation_ttf
+	fira-code
+	fira-code-symbols
+	dina-font
+	proggyfonts
+	font-awesome_5
+	material-design-icons
+	material-icons
+	corefonts
+];
+  fonts.fontDir.enable = true;
+  fonts.fontconfig.defaultFonts = {
+     monospace = [ "Iosevka Semibold" ];
+     serif = [ "Iosevka Hard" ];
+     # sansSerif = [ "Noto Sans" ];
+};
 
   # picomm
   services.picom.enable = true;

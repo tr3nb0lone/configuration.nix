@@ -8,6 +8,7 @@
     wineWowPackages.stable
     winetricks
     bottles
+    lutris
     xorg.xhost
 
 

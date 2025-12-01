@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, config, ... }:
+{ pkgs, ... }:
 
 {
   # List packages installed in system profile. To search, run:
@@ -6,6 +6,8 @@
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
+    # Libs
+    libx11
     go
     autoconf
     automake
@@ -19,13 +21,18 @@
     jdk
     maven
     python311
-    # python313
-    python313Packages.colorama
-    python313Packages.pycryptodome
+    python313
+    python312
+    uv
     python313Packages.pip
     python313Packages.pipx
     python27Full
     python313Packages.bpython
+    # windows.mingw_w64
+    # windows.mingw_w64_headers
+    cygwin.w32api-headers
+    windows.sdk
+    pkgs.pkgsCross.mingwW64.buildPackages.gcc13
     pkgs.pkgsCross.mingwW64.buildPackages.gcc # x86_64-w64-mingw32-gcc & g++
     pkgs.pkgsCross.mingw32.buildPackages.gcc # i686-w64-mingw32-gcc & g++
     pkgs.pkgsCross.mingwW64.buildPackages.binutils # Binutils for 64-bit
@@ -42,6 +49,7 @@
   wezterm
   fzf
   zoxide
+  neovide
   docker-compose
   podman-compose
   podman-desktop

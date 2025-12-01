@@ -17,6 +17,7 @@
     unrar
     p7zip
     kdePackages.okular
+    xfce.xfwm4
     htop
     btop
     fastfetch
@@ -54,6 +55,7 @@
     mesa-demos # replacement for glxinfo
     vulkan-tools
     acpi
+    xdg-utils
     inetutils
     libfaketime
     wireguard-tools

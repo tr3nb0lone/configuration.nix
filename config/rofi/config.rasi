@@ -1,6 +1,6 @@
 configuration {
         modes: "window,drun,run,ssh";
-	font: "Google Sans Code 12";
+	font: "Iosevka SemiBold 13";
   timeout {
       action: "kb-cancel";
       delay:  0;

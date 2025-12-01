@@ -9,10 +9,12 @@ let
   configs = {
     i3 = "i3";
     nvim = "nvim";
+    neovide = "neovide";
     wezterm = "wezterm";
     rofi = "rofi";
     kitty = "kitty";
     picom = "picom";
+    yazi = "yazi";
     # tmux = "tmux";
     dunst = "dunst";
     polybar = "polybar";
@@ -133,8 +135,8 @@ programs.fzf = {
 
 programs.zoxide = {
       enable = true;
-      enableBashIntegration = true;
       enableZshIntegration = true;
+      options = [ "--cmd cd" ];
   };
 
 programs.yazi = {
@@ -175,6 +177,12 @@ shellAliases = {
    };
 };
 
+  # Home path:
+  home.sessionPath = [
+    "$HOME/.local/bin"
+    "$HOME/.cargo/bin"
+  ];
+
 xdg.autostart.enable = true;
 xdg.configFile = builtins.mapAttrs (name: subpath: {
 		source = create_symlink "${dotfiles}/${subpath}";
@@ -185,15 +193,27 @@ xdg.configFile = builtins.mapAttrs (name: subpath: {
 # Theming:
 gtk = {
     enable = true;
+    font = {
+	name = "Iosevka";
+	package = pkgs.iosevka;
+	size = 13;
+   };
       iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
 
+  gtk2 = {
+    font = {
+	name = "Iosevka";
+	package = pkgs.iosevka;
+	size = 13;
+   };
+};
     gtk2.extraConfig = ''
 	 gtk-theme-name="Orchis-Purple-Dark"
 	 gtk-icon-theme-name="Papirus-Dark"
-	 gtk-font-name="Google Sans Code Medium 12"
+	 gtk-font-name="Iosevka Hard 13"
 	 gtk-cursor-theme-name="Adwaita"
 	 gtk-cursor-theme-size=0
 	 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
@@ -270,9 +290,13 @@ home.packages = with pkgs; [
 	lazygit
 	lazydocker
 	handbrake
+	tor-browser
 	material-design-icons
 	gnome-themes-extra
 	font-awesome
+	iosevka
+	hack-font
+        nerd-fonts.iosevka
 
 	# LSPs
 	bash-language-server
@@ -280,6 +304,6 @@ home.packages = with pkgs; [
 	gopls
 	nil
 	pyright
-
+	luajitPackages.luarocks-nix
   ];
 }
