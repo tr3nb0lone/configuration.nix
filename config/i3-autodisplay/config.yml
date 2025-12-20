@@ -1,0 +1,6 @@
+displays:
+  - name: HDMI-1
+    workspaces: [1,2,3,4,5,10]
+  - name: eDP-1
+    workspaces: [6,7,8,9]
+    randr_extra_options: "--right-of HDMI-1"

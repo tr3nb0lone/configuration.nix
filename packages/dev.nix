@@ -6,14 +6,14 @@
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
-    # Libs
-    libx11
     go
     autoconf
     automake
+    glfw
     cmake
     clang-tools
     cargo
+    rustup
     dotnet-sdk_8
     dotnet-runtime_8
     dotnet-aspnetcore_8
@@ -47,6 +47,7 @@
  # Dev utils
   docker_28
   wezterm
+  ghostty
   fzf
   zoxide
   neovide

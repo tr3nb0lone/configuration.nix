@@ -57,6 +57,9 @@
     acpi
     xdg-utils
     inetutils
+    wirelesstools
+    airgeddon
+    aircrack-ng
     libfaketime
     wireguard-tools
     wol
@@ -75,13 +78,10 @@
     exegol
     
     # remote-access
-    # evil-winrm-patched
     openssh
     freerdp
     rdesktop
     remmina
-
-    # python312Packages.pyhanko
 
   ];
 }

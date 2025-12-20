@@ -1,7 +1,7 @@
 [font]
-family = "Iosevka"
-normal = ["Iosevka Extra Bold"]
+family = "Iosevka Nerd Font"
+normal = ["Iosevka Nerd Font"]
 size = 13.5
-style = "ExtraBold"
+style = "Extra Bold"
 hinting = "full"
 edging = "antialias"

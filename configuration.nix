@@ -96,6 +96,7 @@ services.pipewire = {
  programs.zsh.shellInit = ''
         eval "$(zoxide init zsh)"
 	eval "$(fzf --zsh)"
+	eval "$(direnv hook zsh)"
 	bindkey -s ^f "sessionizer.sh\n"
  '';
 
@@ -193,6 +194,10 @@ environment.systemPackages = with pkgs; [
 	material-design-icons
 	material-icons
 	corefonts
+	powerline
+	powerline-fonts
+	powerline-symbols
+	
 ];
   fonts.fontDir.enable = true;
   fonts.fontconfig.defaultFonts = {

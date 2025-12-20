@@ -11,6 +11,7 @@ let
     nvim = "nvim";
     neovide = "neovide";
     wezterm = "wezterm";
+    i3-autodisplay = "i3-autodisplay";
     rofi = "rofi";
     kitty = "kitty";
     picom = "picom";
@@ -25,8 +26,8 @@ in
     home.homeDirectory = "/home/tr3n";
     home.stateVersion = "25.05";
 
-    # Git.config
-    programs.git = {
+# Git.config
+programs.git = {
 	enable = true;
 	settings.user.name = "tr3nb0lone";
 	settings.user.email = "tr3nacetate@proton.me";
@@ -148,8 +149,8 @@ programs.zsh = {
   enable = true;
   oh-my-zsh = {
     enable = true;
-    plugins = [ "git" "fzf" ];
-    theme = "robbyrussell";
+    plugins = [ "git" "fzf" "direnv" ];
+    theme = "fwalch";
   };
   history.size = 50000;
 
@@ -158,6 +159,8 @@ shellAliases = {
 	c = "clear";
 	x = "exit";
 	v = "nvim";
+	vim = "nvim";
+	vide = "neovide . &";
 	z = "zoxide";
 	clone = "git clone";
         
@@ -181,6 +184,7 @@ shellAliases = {
   home.sessionPath = [
     "$HOME/.local/bin"
     "$HOME/.cargo/bin"
+    "$HOME/go/bin"
   ];
 
 xdg.autostart.enable = true;
@@ -247,6 +251,11 @@ gtk = {
       '';
     };
   };
+# Direnv:
+programs.direnv = {
+	enable = true;
+	enableZshIntegration = true;
+};
 
 # Favourite password manager:
 programs.keepassxc  = {
@@ -282,6 +291,7 @@ services.udiskie = {
 
 home.packages = with pkgs; [
 	ripgrep
+	fd
 	nodejs
 	gcc
 	bun
@@ -297,6 +307,7 @@ home.packages = with pkgs; [
 	iosevka
 	hack-font
         nerd-fonts.iosevka
+	i3-auto-layout
 
 	# LSPs
 	bash-language-server
@@ -304,6 +315,7 @@ home.packages = with pkgs; [
 	gopls
 	nil
 	pyright
+	copilot-language-server
 	luajitPackages.luarocks-nix
   ];
 }

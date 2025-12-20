@@ -3,18 +3,19 @@ local wezterm = require 'wezterm'
 local config = {
 	colors = {
 		cursor_bg = "white",
+		background = 'black',
 		cursor_border = "white",
 	},
 
-	font_size = 12.5,
-	font = wezterm.font ('Iosevka ExtraBold', {weight = 'Regular'}),
+	font_size = 13,
+	font = wezterm.font ('Iosevka Nerd Font', {weight = 'Bold'}),
 	-- font = wezterm.font ('Iosevka Medium', { weight = 'DemiBold' }),
 
-	-- color_scheme = 'Belge (terminal.sexy)',
+	-- color_scheme = 'Rosé Pine (base16)',
 
 	enable_tab_bar = false,
 	window_padding = { left = 0, right = 0,	top = 0, bottom = 0, },
-	window_background_opacity = 0.899,
+	window_background_opacity = 0.99999,
 
 	cursor_thickness = "1px",
 	audible_bell = "Disabled",
