@@ -3,13 +3,12 @@
 { inputs, pkgs, lib, config, ... }:
 
 {
-
   imports = [
     # General programs
     ./utils.nix
 
     # Development 
-    ./dev.nix
+    # ./dev.nix
 
     # Security	
     ./windows.nix

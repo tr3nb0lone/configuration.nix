@@ -18,6 +18,7 @@
     dotnet-runtime_8
     dotnet-aspnetcore_8
     mono
+    typescript
     jdk
     maven
     python311
@@ -50,6 +51,7 @@
   ghostty
   fzf
   zoxide
+  sesh
   neovide
   docker-compose
   podman-compose
@@ -62,7 +64,6 @@
     sqlmap
     mariadb
     sqlcmd
-    sqsh
     mdbtools
 
   ];

@@ -75,7 +75,8 @@
     qdirstat
     lsof
     firefox-bin
-    exegol
+    # libreoffice-bin
+    libreoffice-qt-fresh
     
     # remote-access
     openssh
