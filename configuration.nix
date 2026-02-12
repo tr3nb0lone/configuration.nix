@@ -46,13 +46,15 @@
  nixpkgs.config.permittedInsecurePackages = [ "python-2.7.18.8" "python-2.7.18.12"];
 
 # Display manager:
-services.displayManager.ly.enable = true;
+services.displayManager.cosmic-greeter.enable = true;
+
 services.xserver = {
     enable = true;
     autoRepeatDelay = 200;
     autoRepeatInterval = 35;
     windowManager.i3.enable = true;
     desktopManager.xfce.enable = true;
+    displayManager.startx.enable = true;
 };
 
 
@@ -147,7 +149,6 @@ virtualisation.docker = {
   # You can use https://search.nixos.org/ to find more packages (and options).
 environment.systemPackages = with pkgs; [
 	  neovim
-	  librewolf
 	  kitty
 	  rofi
 	  tmux
@@ -156,14 +157,12 @@ environment.systemPackages = with pkgs; [
 	  vesktop 
 	  keepassxc
 	  arandr
-	  joplin-desktop
 	  networkmanagerapplet
-	  # xfce.xfce4-clipman-plugin
 	  feh
 	  flameshot
 	  picom
-	  xfce.thunar
-	  obs-studio
+	  thunar
+	  # obs-studio
 	  chromium
 	  vlc
 	  pavucontrol
@@ -174,10 +173,10 @@ environment.systemPackages = with pkgs; [
 	  bluez-tools
 	  font-awesome
           nerd-fonts.jetbrains-mono
-          virtio-win # replacement of win-virtio
-  	 gnome-boxes # VM management
-         dnsmasq # VM networking
-         phodav # (optional) Share files with guest VMs
+  	 #       virtio-win # replacement of win-virtio
+  	 # gnome-boxes # VM management
+  	 #      dnsmasq # VM networking
+  	 #      phodav # (optional) Share files with guest VMs
 
 ];
   # font setting:
@@ -202,7 +201,7 @@ environment.systemPackages = with pkgs; [
   fonts.fontDir.enable = true;
   fonts.fontconfig.defaultFonts = {
      monospace = [ "Iosevka Semibold" ];
-     serif = [ "Iosevka Hard" ];
+     serif = [ "Iosevka Nerd Font Mono" ];
      # sansSerif = [ "Noto Sans" ];
 };
 
@@ -216,7 +215,7 @@ environment.systemPackages = with pkgs; [
   };
 
   nix.settings.experimental-features  = [ "nix-command" "flakes" ];
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
   # system.stateVersion = "unstable";
 
 }

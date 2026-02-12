@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 
 # dotfiles mania
 let
@@ -15,7 +15,9 @@ let
     rofi = "rofi";
     kitty = "kitty";
     picom = "picom";
+    # direnv = "direnv";
     yazi = "yazi";
+    sesh = "sesh";
     # tmux = "tmux";
     dunst = "dunst";
     polybar = "polybar";
@@ -160,7 +162,7 @@ shellAliases = {
 	x = "exit";
 	v = "nvim";
 	vim = "nvim";
-	vide = "neovide . &";
+	vide = "neovide . & ;disown";
 	z = "zoxide";
 	clone = "git clone";
         
@@ -185,6 +187,7 @@ shellAliases = {
     "$HOME/.local/bin"
     "$HOME/.cargo/bin"
     "$HOME/go/bin"
+    "$HOME/.opencode/bin"
   ];
 
 xdg.autostart.enable = true;
@@ -198,7 +201,7 @@ xdg.configFile = builtins.mapAttrs (name: subpath: {
 gtk = {
     enable = true;
     font = {
-	name = "Iosevka";
+	name = "Iosevka Nerd Font Mono";
 	package = pkgs.iosevka;
 	size = 13;
    };
@@ -209,7 +212,7 @@ gtk = {
 
   gtk2 = {
     font = {
-	name = "Iosevka";
+	name = "Iosevka Nerd Font Mono";
 	package = pkgs.iosevka;
 	size = 13;
    };
@@ -254,6 +257,7 @@ gtk = {
 # Direnv:
 programs.direnv = {
 	enable = true;
+	nix-direnv.enable = true;
 	enableZshIntegration = true;
 };
 
@@ -290,6 +294,7 @@ services.udiskie = {
 };
 
 home.packages = with pkgs; [
+	inputs.joplin-desktop.packages.${system}.default
 	ripgrep
 	fd
 	nodejs
@@ -312,10 +317,17 @@ home.packages = with pkgs; [
 	# LSPs
 	bash-language-server
 	lua-language-server
+	typescript-language-server
 	gopls
 	nil
 	pyright
 	copilot-language-server
+
+	opencode
+
+        # misc nvim
 	luajitPackages.luarocks-nix
+	gotools
+	stylua
   ];
 }
