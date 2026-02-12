@@ -1,0 +1,59 @@
+
+strict_mode = false
+
+blacklist = [
+  "^scratch$",
+  "^_"
+]
+
+sort_order = ["tmux", "zoxide"]
+dir_length = 3
+
+# default
+[default_session]
+startup_command = "ll"
+# startup_command = "fastfetch"
+# preview_command = "ll"
+# startup_command_ignore_dirs = ["~/repos", "~/.config"]
+
+# common
+[[session]]
+name = "projects"
+path = "~/projects/"
+
+[[session]]
+name = "nvim"
+path = "~/configuration.nix/config/nvim/"
+startup_command = "vide"
+
+
+[[session]]
+name = "wallpaper"
+path = "~/Pictures/"
+# startup_command = "ls"
+
+
+[[session]]
+name = "temp"
+path = "~/tmp"
+
+[[session]]
+name = "Downloads"
+path = "~/Downloads"
+startup_command = "yazi"
+
+[[session]]
+name = "personal"
+path = "~/personal"
+
+[[session]]
+name = "home (~)"
+path = "~"
+disable_startup_command = true
+
+# configs
+
+[[session]]
+name = "dotfiles"
+path = "~/configuration.nix/config/"
+# startup_command = "ll"

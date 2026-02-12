@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else # directories I frequently visit
-    selected=$(find ~/projects ~/personal ~/projects/red ~/Documents/ ~/toolkit/  -mindepth 1  -type d | fzf)
+    selected=$(find ~/projects ~/personal ~/BBP/ ~/Documents/ ~/toolkit/  -mindepth 1  -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then

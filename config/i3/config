@@ -2,7 +2,7 @@ set $mod Mod1
 
 # Font for window titles.
 # is used in the bar {} block below.
-font pango:Iosevka 13
+font pango:Iosevka Nerd Font Mono 13
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -169,7 +169,7 @@ client.background       $base07
 exec_always --no-startup-id sh $HOME/configuration.nix/config/feh/fehbg
 
 # picom + polybar:
-exec_always --no-startup-id picom -b --config $HOME/configuration.nix/config/picom/picom.conf
+# exec_always --no-startup-id picom -b --config $HOME/configuration.nix/config/picom/picom.conf
 exec_always --no-startup-id $HOME/configuration.nix/config/polybar/launch.sh
 
 # Resize Bindings
@@ -191,5 +191,11 @@ exec_always --no-startup-id i3-autodisplay
 exec_always --no-startup-id i3-auto-layout
 
 # Clipboard x Password:
-exec_always --no-startup-id xfce4-clipman &
+# exec_always --no-startup-id xfce4-clipman &
 # exec_always --no-startup-id keepassxc &
+
+# startup-ish
+exec_always --no-startup-id $HOME/configuration.nix/config/utils/setup.sh
+
+# Flaoting
+for_window [class=".*burp-StartBurp.*" title="^ $"] floating enable

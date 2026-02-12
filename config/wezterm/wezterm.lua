@@ -8,7 +8,7 @@ local config = {
 	},
 
 	font_size = 13,
-	font = wezterm.font ('Iosevka Nerd Font', {weight = 'Bold'}),
+	font = wezterm.font ('Iosevka Nerd Font Mono', {weight = 'Bold'}),
 	-- font = wezterm.font ('Iosevka Medium', { weight = 'DemiBold' }),
 
 	-- color_scheme = 'Rosé Pine (base16)',
