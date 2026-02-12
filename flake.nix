@@ -58,11 +58,18 @@
     # https://github.com/xiv3r/Burpsuite-Professional
     burpsuitepro = {
       type = "github";
-      owner = "xiv3r";
-      repo = "Burpsuite-Professional";
+      owner = "tr3nb0lone";
+      repo = "Burp-Professional";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-   
+   # Joplin:
+   joplin-desktop = {
+      type = "github";
+      owner = "tr3nb0lone";
+      repo = "joplin-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Red-Flake tools
     tools = {
       url = "github:Red-Flake/tools";
@@ -97,6 +104,7 @@ outputs = {
 	  nixos-hardware, 
 	  nix-gaming, 
 	  burpsuitepro,
+	  joplin-desktop,
 	  ...
 	}@inputs:
 	  let
