@@ -17,7 +17,7 @@
     unrar
     p7zip
     kdePackages.okular
-    xfce.xfwm4
+    xfwm4
     htop
     btop
     fastfetch
@@ -71,11 +71,8 @@
     zenity
     restic
     rsync
-    handbrake
     qdirstat
     lsof
-    firefox-bin
-    # libreoffice-bin
     libreoffice-qt-fresh
     
     # remote-access

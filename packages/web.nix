@@ -18,7 +18,6 @@
     # project discovery:
     httpx
     katana
-    # nuceli
     interactsh
 
   ];

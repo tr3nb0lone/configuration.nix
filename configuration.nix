@@ -154,25 +154,28 @@ environment.systemPackages = with pkgs; [
 	  tmux
 	  polybar
 	  ayugram-desktop
-	  vesktop 
+	  # vesktop 
 	  keepassxc
 	  arandr
 	  networkmanagerapplet
 	  feh
+	  firefox-bin
 	  flameshot
 	  picom
 	  thunar
 	  # obs-studio
-	  chromium
-	  vlc
+	  # chromium
+	  # vlc
 	  pavucontrol
 	  pulseaudio
 	  dunst
 	  bluez
 	  lxappearance
 	  bluez-tools
-	  font-awesome
-          nerd-fonts.jetbrains-mono
+	  # font-awesome
+          # nerd-fonts.jetbrains-mono
+	# gnome-disk-utility
+	# popsicle
   	 #       virtio-win # replacement of win-virtio
   	 # gnome-boxes # VM management
   	 #      dnsmasq # VM networking
@@ -185,18 +188,17 @@ environment.systemPackages = with pkgs; [
 	noto-fonts-color-emoji
 	inter
 	liberation_ttf
-	fira-code
-	fira-code-symbols
-	dina-font
-	proggyfonts
-	font-awesome_5
-	material-design-icons
-	material-icons
-	corefonts
-	powerline
-	powerline-fonts
-	powerline-symbols
-	
+	# fira-code
+	# fira-code-symbols
+	# dina-font
+	# proggyfonts
+	# font-awesome_5
+	# material-design-icons
+	# material-icons
+	# corefonts
+	# powerline
+	# powerline-fonts
+	# powerline-symbols
 ];
   fonts.fontDir.enable = true;
   fonts.fontconfig.defaultFonts = {

@@ -8,15 +8,15 @@
     ./utils.nix
 
     # Development 
-    # ./dev.nix
+    ./dev.nix
 
     # Security	
-    ./windows.nix
-    ./recon.nix
-    ./web.nix
+    # ./windows.nix
+    # ./recon.nix
+    # ./web.nix
 
     # misc (?)
-    ./misc.nix
+    # ./misc.nix
 
   ];
 }

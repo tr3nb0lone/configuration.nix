@@ -294,40 +294,40 @@ services.udiskie = {
 };
 
 home.packages = with pkgs; [
-	inputs.joplin-desktop.packages.${system}.default
+	# inputs.joplin-desktop.packages.${system}.default
 	ripgrep
 	fd
-	nodejs
-	gcc
-	bun
-	deno
-	webkitgtk_6_0
+	# nodejs
+	# gcc
+	# bun
+	# deno
+	# webkitgtk_6_0
 	lazygit
 	lazydocker
-	handbrake
-	tor-browser
+	# handbrake
+	# tor-browser
 	material-design-icons
 	gnome-themes-extra
 	font-awesome
 	iosevka
-	hack-font
+	# hack-font
         nerd-fonts.iosevka
 	i3-auto-layout
 
 	# LSPs
 	bash-language-server
 	lua-language-server
-	typescript-language-server
-	gopls
+	# typescript-language-server
+	# gopls
 	nil
-	pyright
-	copilot-language-server
+	# pyright
+	# copilot-language-server
 
-	opencode
+	# opencode
 
         # misc nvim
 	luajitPackages.luarocks-nix
-	gotools
+	# gotools
 	stylua
   ];
 }
