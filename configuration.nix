@@ -162,7 +162,7 @@ environment.systemPackages = with pkgs; [
 	  flameshot
 	  picom
 	  thunar
-	  # obs-studio
+	  obs-studio
 	  chromium
 	  vlc
 	  pavucontrol

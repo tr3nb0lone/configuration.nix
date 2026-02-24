@@ -17,7 +17,7 @@
     unrar
     p7zip
     kdePackages.okular
-    xfce.xfwm4
+    xfwm4
     htop
     btop
     fastfetch

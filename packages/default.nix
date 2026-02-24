@@ -8,7 +8,7 @@
     ./utils.nix
 
     # Development 
-    # ./dev.nix
+    ./dev.nix
 
     # Security	
     ./windows.nix
