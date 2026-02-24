@@ -9,6 +9,7 @@
     winetricks
     bottles
     lutris
+    geekbench
 
     # Libs
     libx11

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   imports =
@@ -8,8 +8,40 @@
     ];
 
  hardware.enableAllFirmware = true;
- boot.loader.systemd-boot.enable = true;
- boot.loader.efi.canTouchEfiVariables = true;
+
+  boot = {
+    kernelPackages = pkgs.linuxPackages_cachyos-lto.cachyOverride { mArch = "GENERIC_V3"; };
+    extraModulePackages = with config.boot.kernelPackages; [
+    rtw88
+    ];
+    blacklistedKernelModules = [
+    "rtw88_8821ce"
+    ]; 
+    plymouth = {
+      enable = true;
+      theme = "nixos-bgrt";
+      themePackages = with pkgs; [
+      nixos-bgrt-plymouth
+      ];
+    };
+
+    # https://wiki.nixos.org/wiki/Plymouth
+    # Enable "Silent boot"
+    consoleLogLevel = 3;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "splash"
+      "plymouth.ignore-serial-consoles"
+      "udev.log_priority=0" # set to =3 if you want udev error logs
+    ];
+
+    loader.timeout = 0;
+    loader.systemd-boot.consoleMode = "max";
+    loader.efi.canTouchEfiVariables = true;
+    loader.systemd-boot.enable = true;
+  };
+
 
   # Clean /tmp on reboot
   boot.tmp = {

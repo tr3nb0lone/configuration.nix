@@ -7,7 +7,6 @@
 
     # Home-Manager:
     home-manager = {
-	# HM follows unstable:
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -16,8 +15,8 @@
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Chaotic's Nyx
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    # get the CachyOS kernel
+    cachynix.url = "github:Mrn157/CachyNix";
 
     # Modules support for flakes
     flake-parts = {
@@ -96,12 +95,12 @@ outputs = {
 	  nixpkgs, 
 	  nix-ld, 
 	  home-manager,
-	  chaotic, 
 	  flake-parts, 
 	  pre-commit-hooks,
 	  tools, 
 	  poetry2nix, 
 	  nixos-hardware, 
+	  cachynix, 
 	  nix-gaming, 
 	  burpsuitepro,
 	  joplin-desktop,
@@ -119,17 +118,18 @@ nixosConfigurations = {
 	inherit system;
           specialArgs = {
             inherit inputs outputs;
-            chaoticPkgs = import inputs.nixpkgs {
-              inherit system;
-              overlays = [ inputs.chaotic.overlays.default ];
-              config.allowUnfree = true;
-              config.allowUnsupportedSystem = true;
-       };
+       #      chaoticPkgs = import inputs.nixpkgs {
+       #        inherit system;
+       #        # overlays = [ inputs.chaotic.overlays.default ];
+       #        overlays = [ ];
+       #        config.allowUnfree = true;
+       #        config.allowUnsupportedSystem = true;
+       # };
      };
 	modules = [
             ./configuration.nix
-	    chaotic.nixosModules.default
             home-manager.nixosModules.home-manager
+            cachynix.nixosModules.default
 	    nix-ld.nixosModules.nix-ld
   	  { programs.nix-ld.dev.enable = true; }	    
 		    {
