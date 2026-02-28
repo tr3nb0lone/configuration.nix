@@ -78,7 +78,8 @@
  nixpkgs.config.permittedInsecurePackages = [ "python-2.7.18.8" "python-2.7.18.12"];
 
 # Display manager:
-services.displayManager.cosmic-greeter.enable = true;
+# services.displayManager.cosmic-greeter.enable = true;
+services.displayManager.ly.enable = true;
 
 services.xserver = {
     enable = true;
@@ -166,11 +167,17 @@ virtualisation.docker = {
   # programs.nix-ld.enable = true; # might be useless as of now
 
   # Virtualization:
- virtualisation.libvirtd = { enable = true; };
+ programs.virt-manager.enable = true;
+ virtualisation.libvirtd = {
+	enable = true;
+	qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+};
+  # misc virtualization
+  services.qemuGuest.enable =true;
+  services.spice-vdagentd.enable = true;
 
   # Enable USB redirection
   virtualisation.spiceUSBRedirection.enable = true;
-  programs.virt-manager.enable = true;
 
    # Allow VM management
    users.groups.libvirtd.members = [ "tr3n" ];
@@ -205,10 +212,6 @@ environment.systemPackages = with pkgs; [
 	  bluez-tools
 	  font-awesome
           nerd-fonts.jetbrains-mono
-  	 #       virtio-win # replacement of win-virtio
-  	 # gnome-boxes # VM management
-  	 #      dnsmasq # VM networking
-  	 #      phodav # (optional) Share files with guest VMs
 
 ];
   # font setting:

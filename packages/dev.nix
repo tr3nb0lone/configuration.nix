@@ -10,6 +10,7 @@
     autoconf
     automake
     glfw
+    icu
     cmake
     clang-tools
     cargo

@@ -11,6 +11,9 @@
     lutris
     geekbench
 
+
+    iproute2
+
     # Libs
     libx11
     xhost
@@ -20,6 +23,14 @@
     libxi
     glfw
     glfw2
+
+  # Virtualization
+  spice-vdagent
+  spice-autorandr
+  virtio-win # replacement of win-virtio
+  gnome-boxes # VM management
+  dnsmasq # VM networking
+  phodav # (optional) Share files with guest VMs
 
   ];
 }

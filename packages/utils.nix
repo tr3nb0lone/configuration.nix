@@ -77,7 +77,9 @@
     firefox-bin
     # libreoffice-bin
     libreoffice-qt-fresh
-    
+    gnome-disk-utility   
+    filezilla
+
     # remote-access
     openssh
     freerdp

@@ -118,13 +118,6 @@ nixosConfigurations = {
 	inherit system;
           specialArgs = {
             inherit inputs outputs;
-       #      chaoticPkgs = import inputs.nixpkgs {
-       #        inherit system;
-       #        # overlays = [ inputs.chaotic.overlays.default ];
-       #        overlays = [ ];
-       #        config.allowUnfree = true;
-       #        config.allowUnsupportedSystem = true;
-       # };
      };
 	modules = [
             ./configuration.nix
