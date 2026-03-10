@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, inputs, ... }:
 
 {
   imports =
@@ -64,6 +64,7 @@
  networking.nameservers = [
    "1.1.1.1"
    "8.8.8.8"
+   "100.100.100.100"
 ];
 
  # YAY! you now know where I live.
@@ -166,6 +167,23 @@ virtualisation.docker = {
   # https://blog.kaorubb.org/en/posts/nixos-fix-could-not-start-dynamically-linked-executable/
   # programs.nix-ld.enable = true; # might be useless as of now
 
+# modded spotify
+  programs = {
+    spicetify =
+      let
+        spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+      in
+        {
+        enable = true;
+        enabledExtensions = with spicePkgs.extensions; [
+          adblock
+          hidePodcasts
+        ];
+        theme = spicePkgs.themes.text;
+        # colorScheme = "RosePine";
+      };
+};
+
   # Virtualization:
  programs.virt-manager.enable = true;
  virtualisation.libvirtd = {
@@ -183,6 +201,8 @@ virtualisation.docker = {
    users.groups.libvirtd.members = [ "tr3n" ];
    users.groups.kvm.members = [ "tr3n" ];
 
+# enable fingerprint 
+services.fprintd.enable = true;
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
@@ -247,6 +267,12 @@ environment.systemPackages = with pkgs; [
   services.openssh = {
 	enable = true;
 	settings.PasswordAuthentication = false;
+  };
+
+  # Tailscale
+  services.tailscale = {
+    enable = false;
+    # Enable tailscale at startup
   };
 
   nix.settings.experimental-features  = [ "nix-command" "flakes" ];

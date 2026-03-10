@@ -39,6 +39,9 @@
 
     nur.url = "github:nix-community/NUR";
 
+    # Mod spotify.
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+
     # https://github.com/thiagokokada/nix-alien
     nix-alien = {
       url = "github:thiagokokada/nix-alien";
@@ -98,6 +101,7 @@ outputs = {
 	  flake-parts, 
 	  pre-commit-hooks,
 	  tools, 
+	  spicetify-nix, 
 	  poetry2nix, 
 	  nixos-hardware, 
 	  cachynix, 
@@ -122,11 +126,15 @@ nixosConfigurations = {
 	modules = [
             ./configuration.nix
             home-manager.nixosModules.home-manager
+            spicetify-nix.nixosModules.spicetify 
             cachynix.nixosModules.default
 	    nix-ld.nixosModules.nix-ld
   	  { programs.nix-ld.dev.enable = true; }	    
 		    {
-              imports = [ inputs.home-manager.nixosModules.home-manager ];
+              imports = [ 
+	    inputs.home-manager.nixosModules.home-manager
+            # spicetify-nix.nixosModules.spicetify 
+	];
               home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;

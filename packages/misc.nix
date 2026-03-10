@@ -11,7 +11,8 @@
     lutris
     geekbench
 
-
+evil-winrm
+evil-winrm-py
     iproute2
 
     # Libs
