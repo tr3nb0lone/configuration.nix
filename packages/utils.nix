@@ -28,6 +28,7 @@
     dig
     host
     zsh
+    tmux
     openvpn
     macchanger
     brightnessctl
