@@ -1,16 +1,16 @@
 {
-    description = "NixOS, a new chapter.";
+  description = "NixOS, a new chapter.";
 
-    inputs = {
+  inputs = {
     # nixpkgs
     nixpkgs.url = "nixpkgs/nixos-unstable"; # yea, live life on the edge.
 
     # Home-Manager:
     home-manager = {
-        url = "github:nix-community/home-manager";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     # nix-ld:
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
@@ -64,25 +64,18 @@
       repo = "Burp-Professional";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-   # Joplin:
-   joplin-desktop = {
+
+    # Joplin:
+    joplin-desktop = {
       type = "github";
       owner = "tr3nb0lone";
       repo = "joplin-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Red-Flake tools
-    tools = {
-      url = "github:Red-Flake/tools";
-      flake = false;
-    };
-
-    # Red-Flake NUR packages
-    redflake-packages = {
-      type = "github";
-      owner = "Red-Flake";
-      repo = "packages";
+    # nvim
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -90,56 +83,56 @@
     # https://github.com/fufexan/nix-gaming
     nix-gaming.url = "github:fufexan/nix-gaming";
 
-};
+  };
 
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nix-ld,
+      home-manager,
+      flake-parts,
+      pre-commit-hooks,
+      spicetify-nix,
+      poetry2nix,
+      nixos-hardware,
+      cachynix,
+      nix-gaming,
+      burpsuitepro,
+      joplin-desktop,
+      neovim-nightly-overlay,
+      ...
+    }@inputs:
+    let
+      inherit (self) outputs;
+      system = "x86_64-linux";
+    in
+    {
 
-outputs = {
-	  self, 
-	  nixpkgs, 
-	  nix-ld, 
-	  home-manager,
-	  flake-parts, 
-	  pre-commit-hooks,
-	  tools, 
-	  spicetify-nix, 
-	  poetry2nix, 
-	  nixos-hardware, 
-	  cachynix, 
-	  nix-gaming, 
-	  burpsuitepro,
-	  joplin-desktop,
-	  ...
-	}@inputs:
-	  let
-	     inherit (self) outputs;
-	     system = "x86_64-linux";
-	  in
-	{
-
-nixosConfigurations = {
-	# Config for my main host:
-	NIX = nixpkgs.lib.nixosSystem {
-	inherit system;
+      nixosConfigurations = {
+        # Config for my main host:
+        NIX = nixpkgs.lib.nixosSystem {
+          inherit system;
           specialArgs = {
             inherit inputs outputs;
-     };
-	modules = [
+          };
+          modules = [
             ./configuration.nix
             home-manager.nixosModules.home-manager
-            spicetify-nix.nixosModules.spicetify 
+            spicetify-nix.nixosModules.spicetify
             cachynix.nixosModules.default
-	    nix-ld.nixosModules.nix-ld
-  	  { programs.nix-ld.dev.enable = true; }	    
-		    {
-              imports = [ 
-	    inputs.home-manager.nixosModules.home-manager
-            # spicetify-nix.nixosModules.spicetify 
-	];
+            nix-ld.nixosModules.nix-ld
+            { programs.nix-ld.dev.enable = true; }
+            {
+              imports = [
+                inputs.home-manager.nixosModules.home-manager
+                # spicetify-nix.nixosModules.spicetify
+              ];
               home-manager = {
-                    useGlobalPkgs = true;
-                    useUserPackages = true;
-                    users.tr3n = import ./home.nix;
-                    backupFileExtension = "backup";
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.tr3n = import ./home.nix;
+                backupFileExtension = "backup";
               };
               home-manager.extraSpecialArgs = {
                 inherit inputs;
@@ -147,17 +140,17 @@ nixosConfigurations = {
                 pkgs = import inputs.nixpkgs {
                   system = "x86_64-linux";
                   config.allowUnfree = true;
-		  config.allowBroken = true;
+                  config.allowBroken = true;
                   config.allowUnsupportedSystem = true;
                   overlays = [
                     # impacket overlay
                     # (import nixos/overlays/impacket-overlay)
-                 ];
+                  ];
+                };
               };
-           };
-         }
-       ];
+            }
+          ];
+        };
       };
     };
-  };
 }

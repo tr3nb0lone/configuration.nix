@@ -78,6 +78,27 @@
     },
     "flake-parts_2": {
       "inputs": {
+        "nixpkgs-lib": [
+          "neovim-nightly-overlay",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775087534,
+        "narHash": "sha256-91qqW8lhL7TLwgQWijoGBbiD4t7/q75KTi8NxjVmSmA=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "3107b77cd68437b9a76194f0f7f9c55f2329ca5b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_3": {
+      "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
       },
       "locked": {
@@ -94,7 +115,7 @@
         "type": "github"
       }
     },
-    "flake-parts_3": {
+    "flake-parts_4": {
       "inputs": {
         "nixpkgs-lib": [
           "nur",
@@ -229,6 +250,44 @@
         "type": "github"
       }
     },
+    "neovim-nightly-overlay": {
+      "inputs": {
+        "flake-parts": "flake-parts_2",
+        "neovim-src": "neovim-src",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775865888,
+        "narHash": "sha256-im6eWkpc8l8sRnv+uHcxGtUi4cE/rsete9Mo6GBpwqU=",
+        "owner": "nix-community",
+        "repo": "neovim-nightly-overlay",
+        "rev": "da590e86c5019cc3a853f0003b44aef8950b5620",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "neovim-nightly-overlay",
+        "type": "github"
+      }
+    },
+    "neovim-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1775864394,
+        "narHash": "sha256-mdxM2fMgNn7u2GEvaYJrtuYqM1ZYNHWevoqV/uGP6rE=",
+        "owner": "neovim",
+        "repo": "neovim",
+        "rev": "4f7b6083e5fe13ae0474520c769e1d3aeb25d393",
+        "type": "github"
+      },
+      "original": {
+        "owner": "neovim",
+        "repo": "neovim",
+        "type": "github"
+      }
+    },
     "nix-alien": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -253,7 +312,7 @@
     },
     "nix-gaming": {
       "inputs": {
-        "flake-parts": "flake-parts_2",
+        "flake-parts": "flake-parts_3",
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
@@ -464,7 +523,7 @@
     },
     "nur": {
       "inputs": {
-        "flake-parts": "flake-parts_3",
+        "flake-parts": "flake-parts_4",
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
@@ -529,26 +588,6 @@
         "type": "github"
       }
     },
-    "redflake-packages": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1767500168,
-        "narHash": "sha256-tbWyOXbvUJ59HPWlssHPCXfpq0KkMH3si3whLOuXmCM=",
-        "owner": "Red-Flake",
-        "repo": "packages",
-        "rev": "9371f4983b1449e62308830d08e6357521d80c66",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Red-Flake",
-        "repo": "packages",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "burpsuitepro": "burpsuitepro",
@@ -556,6 +595,7 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager_2",
         "joplin-desktop": "joplin-desktop",
+        "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-alien": "nix-alien",
         "nix-gaming": "nix-gaming",
         "nix-index-database": "nix-index-database_2",
@@ -565,9 +605,7 @@
         "nur": "nur",
         "poetry2nix": "poetry2nix",
         "pre-commit-hooks": "pre-commit-hooks",
-        "redflake-packages": "redflake-packages",
-        "spicetify-nix": "spicetify-nix",
-        "tools": "tools"
+        "spicetify-nix": "spicetify-nix"
       }
     },
     "rust-overlay": {
@@ -652,22 +690,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "tools": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1769569185,
-        "narHash": "sha256-RxNb/eACM3ADyXRTAkItBK4fpgCUsXFNdeMwrgPjuQE=",
-        "owner": "Red-Flake",
-        "repo": "tools",
-        "rev": "ea7114a5d486ac233701f81fa9e69528959d1051",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Red-Flake",
-        "repo": "tools",
         "type": "github"
       }
     },
