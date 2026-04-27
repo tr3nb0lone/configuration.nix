@@ -1,27 +1,31 @@
-{ pkgs, config, inputs, ... }:
+{
+  pkgs,
+  config,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./packages/default.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ./packages/default.nix
+  ];
 
- hardware.enableAllFirmware = true;
+  hardware.enableAllFirmware = true;
 
   boot = {
     kernelPackages = pkgs.linuxPackages_cachyos-lto.cachyOverride { mArch = "GENERIC_V3"; };
     extraModulePackages = with config.boot.kernelPackages; [
-    rtw88
+      rtw88
     ];
     blacklistedKernelModules = [
-    "rtw88_8821ce"
-    ]; 
+      "rtw88_8821ce"
+    ];
     plymouth = {
       enable = true;
       theme = "nixos-bgrt";
       themePackages = with pkgs; [
-      nixos-bgrt-plymouth
+        nixos-bgrt-plymouth
       ];
     };
 
@@ -42,7 +46,6 @@
     loader.systemd-boot.enable = true;
   };
 
-
   # Clean /tmp on reboot
   boot.tmp = {
     cleanOnBoot = true;
@@ -50,130 +53,111 @@
     tmpfsSize = "300%";
   };
 
- networking.hostName = "NIX";
- networking.networkmanager.enable = true;
+  # Nnetworking:
+  networking = {
+    hostName = "NIX";
+    networkmanager.enable = true;
 
- # Disable NetworkManager's internal DNS resolution
- networking.networkmanager.dns = "none";
+    # Disable NetworkManager's internal DNS resolution
+    networkmanager.dns = "none";
 
- # These options are unnecessary when managing DNS ourselves
- networking.useDHCP = false;
- networking.dhcpcd.enable = false;
+    # These options are unnecessary when managing DNS ourselves
+    useDHCP = false;
+    dhcpcd.enable = false;
 
- # Configure DNS servers manually (Cloudflare and Google DNS)
- networking.nameservers = [
-   "1.1.1.1"
-   "8.8.8.8"
-   "100.100.100.100"
-];
+    # Configure DNS servers manually (Cloudflare and Google DNS)
+    nameservers = [
+      "1.1.1.1"
+      "8.8.8.8"
+      "100.100.100.100" # tailscale
+    ];
 
- # YAY! you now know where I live.
- time.timeZone = "Africa/Addis_Ababa";
- 
- # get paid and unsupported packages
- nixpkgs.config.allowUnfree = true;
- nixpkgs.config.allowUnsupportedSystem = true;
- nixpkgs.config.microsoftVisualStudioLicenseAccepted = true;
-
-# get `deprecated / insecure / unmaintained` packages:
- nixpkgs.config.permittedInsecurePackages = [ "python-2.7.18.8" "python-2.7.18.12"];
-
-# Display manager:
-# services.displayManager.cosmic-greeter.enable = true;
-services.displayManager.ly.enable = true;
-
-services.xserver = {
-    enable = true;
-    autoRepeatDelay = 200;
-    autoRepeatInterval = 35;
-    windowManager.i3.enable = true;
-    desktopManager.xfce.enable = true;
-    displayManager.startx.enable = true;
-};
-
-
- # Configure keymap(s) in X11
- services.xserver.xkb.layout = "us";
- services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-
-# Enable sound with pipewire.
-services.pulseaudio.enable = false;
-services.pipewire = {
-       enable = true;
-       jack.enable = true;
-       pulse.enable = true;
-       alsa.enable = true;
-       alsa.support32Bit = true;
+    # but I trust everything!
+    firewall.trustedInterfaces = [
+      "virbr0"
+      "tun0"
+      "enp0s31f6"
+    ];
+    extraHosts = ''
+      192.168.122.44 		KALI
+    '';
   };
- 
+
+  # YAY! you now know where I live.
+  time.timeZone = "Africa/Addis_Ababa";
+
+  # general nixpkgs config
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowBroken = true;
+    allowUnsupportedSystem = true;
+    microsoftVisualStudioLicenseAccepted = true;
+    android_sdk.accept_license = true;
+
+    # get `deprecated / insecure / unmaintained` packages:
+    permittedInsecurePackages = [
+      "python-2.7.18.8"
+      "python-2.7.18.12"
+    ];
+
+  };
+
   # Enable bluetooth
   hardware.bluetooth = {
     enable = true;
-    powerOnBoot = true;
+    powerOnBoot = false;
   };
-  services.blueman.enable = true;
 
-  # Enable touchpad
-  services.libinput.enable = true;
-
- # User config:
- users.users.tr3n = {
-   isNormalUser = true;
-   extraGroups = [ "wheel" "libvirtd" "podman" ];
-   packages = with pkgs; [
-     tree
-   ];
- };
-
- # I'm forced to use Zsh - thanks NixOS:
- users.defaultUserShell = pkgs.zsh;
- programs.zsh.enable = true;
- programs.zsh.shellInit = ''
-        eval "$(zoxide init zsh)"
-	eval "$(fzf --zsh)"
-	eval "$(direnv hook zsh)"
-	bindkey -s ^f "sessionizer.sh\n"
- '';
-
-# Enable common container config files in /etc/containers
-virtualisation.containers.enable = true;
-virtualisation = {
-  podman = {
-    enable = true;
-    # Create a `docker` alias for podman, to use it as a drop-in replacement
-    dockerCompat = true;
-    # Required for containers under podman-compose to be able to talk to each other.
-    defaultNetwork.settings.dns_enabled = true;
+  # User config:
+  users.users.tr3n = {
+    isNormalUser = true;
+    extraGroups = [
+      "wheel"
+      "libvirtd"
+      "podman"
+      "audio"
+    ];
+    packages = with pkgs; [
+      tree
+    ];
   };
-};
 
-  # Docker:
-virtualisation.docker = {
-  # Consider disabling the system wide Docker daemon, prevent easy privesc dummy.
-  enable = false;
-  rootless = {
-    enable = true;
-    setSocketVariable = true;
-    # Optionally customize rootless Docker daemon settings
-    daemon.settings = {
-      dns = [ "1.1.1.1" "8.8.8.8" ];
+  # main shell:
+  users.defaultUserShell = pkgs.zsh;
+
+  # Enable common container config files in /etc/containers
+  virtualisation.containers.enable = true;
+  virtualisation = {
+    podman = {
+      enable = true;
+      dockerCompat = true; # Create a `docker` alias for podman, to use it as a drop-in replacement
+      defaultNetwork.settings.dns_enabled = true; # Required for containers under podman-compose to be able to talk to each other.
     };
   };
-};
-  # auto-mount and external disk management:
-  services.udisks2.enable = true;
 
-  # https://blog.kaorubb.org/en/posts/nixos-fix-could-not-start-dynamically-linked-executable/
-  # programs.nix-ld.enable = true; # might be useless as of now
+  # Docker:
+  virtualisation.docker = {
+    enable = false; # Consider disabling the system wide Docker daemon, prevent easy privesc dummy.
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+      # Optionally customize rootless Docker daemon settings
+      daemon.settings = {
+        dns = [
+          "1.1.1.1"
+          "8.8.8.8"
+        ];
+      };
+    };
+  };
 
-# modded spotify
   programs = {
     spicetify =
+      # modded spotify
       let
         spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
       in
-        {
+      {
         enable = true;
         enabledExtensions = with spicePkgs.extensions; [
           adblock
@@ -182,101 +166,162 @@ virtualisation.docker = {
         theme = spicePkgs.themes.text;
         # colorScheme = "RosePine";
       };
-};
+
+    nh = {
+      enable = true;
+      clean.enable = true;
+      # clean.extraArgs = "--keep-since 4d --keep 3";
+      flake = "/home/tr3n/configuration.nix/";
+    };
+
+    zsh = {
+      enable = true;
+      shellInit = ''
+                eval "$(zoxide init zsh)"
+        	eval "$(fzf --zsh)"
+        	eval "$(direnv hook zsh)"
+        	bindkey -s ^f "sessionizer.sh\n"
+      '';
+    };
+
+    # misc-programs:
+    kdeconnect.enable = true;
+    nm-applet.enable = true;
+    virt-manager.enable = true;
+  };
 
   # Virtualization:
- programs.virt-manager.enable = true;
- virtualisation.libvirtd = {
-	enable = true;
-	qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
-};
-  # misc virtualization
-  services.qemuGuest.enable =true;
-  services.spice-vdagentd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+  };
+
+  services = {
+    # List services that you want to enable:
+    # misc virtualization
+    qemuGuest.enable = true;
+    spice-vdagentd.enable = true;
+
+    xserver = {
+      enable = true;
+      autoRepeatDelay = 200;
+      autoRepeatInterval = 35;
+      windowManager.i3.enable = true;
+      desktopManager.xfce.enable = true;
+      displayManager.startx.enable = true;
+    };
+
+    # Configure keymap(s) in X11
+    xserver.xkb.layout = "us";
+    xserver.xkb.options = "eurosign:e,caps:escape";
+
+    # Enable sound with pipewire.
+    pipewire = {
+      enable = true;
+      jack.enable = true;
+      pulse.enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+    };
+
+    # enable fingerprint
+    fprintd.enable = true;
+
+    # picom
+    picom.enable = true;
+
+    blueman = {
+      enable = true;
+      # withApplet = true;
+    };
+
+    # Enable touchpad
+    libinput.enable = true;
+    # auto-mount and external disk management:
+    udisks2.enable = true;
+    openssh = {
+      enable = true;
+      settings.PasswordAuthentication = false;
+    };
+
+    # Display manager:
+    displayManager.ly.enable = true;
+
+    # Tailscale
+    tailscale = {
+      # Enable tailscale at startup
+      enable = false;
+    };
+
+  };
 
   # Enable USB redirection
   virtualisation.spiceUSBRedirection.enable = true;
 
-   # Allow VM management
-   users.groups.libvirtd.members = [ "tr3n" ];
-   users.groups.kvm.members = [ "tr3n" ];
-
-# enable fingerprint 
-services.fprintd.enable = true;
+  # Allow VM management
+  users.groups.libvirtd.members = [ "tr3n" ];
+  users.groups.kvm.members = [ "tr3n" ];
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
-environment.systemPackages = with pkgs; [
-	  neovim
-	  kitty
-	  rofi
-	  tmux
-	  polybar
-	  ayugram-desktop
-	  vesktop 
-	  keepassxc
-	  arandr
-	  networkmanagerapplet
-	  feh
-	  flameshot
-	  picom
-	  thunar
-	  obs-studio
-	  chromium
-	  vlc
-	  pavucontrol
-	  pulseaudio
-	  dunst
-	  bluez
-	  lxappearance
-	  bluez-tools
-	  font-awesome
-          nerd-fonts.jetbrains-mono
+  environment.systemPackages = with pkgs; [
+    inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
+    kitty
+    rofi
+    tmux
+    polybar
+    ayugram-desktop
+    vesktop
+    keepassxc
+    arandr
+    feh
+    flameshot
+    picom
+    thunar
+    obs-studio
+    chromium
+    vlc
+    pavucontrol
+    pulseaudio
+    dunst
+    bluez
+    lxappearance
+    bluez-tools
+    font-awesome
+    nerd-fonts.jetbrains-mono
 
-];
+    # embarassing!
+    android-tools
+    android-studio
+
+    frida-tools
+    apktool
+    jadx
+
+  ];
+
   # font setting:
-  fonts.packages = with pkgs; [
-	noto-fonts
-	noto-fonts-color-emoji
-	inter
-	liberation_ttf
-	fira-code
-	fira-code-symbols
-	dina-font
-	proggyfonts
-	font-awesome_5
-	material-design-icons
-	material-icons
-	corefonts
-	powerline
-	powerline-fonts
-	powerline-symbols
-	
-];
-  fonts.fontDir.enable = true;
-  fonts.fontconfig.defaultFonts = {
-     monospace = [ "Iosevka Semibold" ];
-     serif = [ "Iosevka Nerd Font Mono" ];
-     # sansSerif = [ "Noto Sans" ];
-};
+  fonts = {
+    packages = with pkgs; [
+      inter
+      proggyfonts
+      material-design-icons
+      material-icons
+      corefonts
+      powerline
 
-  # picomm
-  services.picom.enable = true;
-
-  # List services that you want to enable:
-  services.openssh = {
-	enable = true;
-	settings.PasswordAuthentication = false;
+    ];
+    fontDir.enable = true;
+    fontconfig.defaultFonts = {
+      monospace = [ "Iosevka Semibold" ];
+      serif = [ "Iosevka Nerd Font Mono" ];
+    };
   };
 
-  # Tailscale
-  services.tailscale = {
-    enable = false;
-    # Enable tailscale at startup
-  };
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
-  nix.settings.experimental-features  = [ "nix-command" "flakes" ];
   system.stateVersion = "25.11";
-  # system.stateVersion = "unstable";
-
 }
