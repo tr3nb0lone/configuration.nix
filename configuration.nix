@@ -163,7 +163,17 @@
           adblock
           hidePodcasts
         ];
-        theme = spicePkgs.themes.text;
+        theme = {
+          name = "text";
+          src = pkgs.fetchFromGitHub {
+            owner = "tr3nb0lone";
+            repo = "spicetify-theme";
+            rev = "a7b9980667b445b28596dcac6f63190615bbfcff";
+            hash = "sha256-aS4Gv0FYDMWk649v3CiDDFku2HstaQSWwT46Do03Fg4=";
+          };
+        };
+
+        # theme = spicePkgs.themes.text;
         # colorScheme = "RosePine";
       };
 
@@ -198,9 +208,6 @@
 
   services = {
     # List services that you want to enable:
-    # misc virtualization
-    qemuGuest.enable = true;
-    spice-vdagentd.enable = true;
 
     xserver = {
       enable = true;
@@ -224,6 +231,9 @@
       alsa.support32Bit = true;
     };
 
+    # snap:
+    snap.enable = true;
+
     # enable fingerprint
     fprintd.enable = true;
 
@@ -237,6 +247,7 @@
 
     # Enable touchpad
     libinput.enable = true;
+
     # auto-mount and external disk management:
     udisks2.enable = true;
     openssh = {
@@ -246,6 +257,10 @@
 
     # Display manager:
     displayManager.ly.enable = true;
+
+    # misc virtualization
+    qemuGuest.enable = true;
+    spice-vdagentd.enable = true;
 
     # Tailscale
     tailscale = {
