@@ -3,7 +3,7 @@
 
   inputs = {
     # nixpkgs
-    nixpkgs.url = "nixpkgs/nixos-unstable"; # yea, live life on the edge.
+    nixpkgs.url = "nixpkgs/nixos-unstable";
 
     # Home-Manager:
     home-manager = {
@@ -16,7 +16,10 @@
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
     # get the CachyOS kernel
-    cachynix.url = "github:Mrn157/CachyNix";
+    nix-cachyos-kernel = {
+      url = "github:xddxdd/nix-cachyos-kernel/release";
+      # Do not override its nixpkgs input, otherwise there can be mismatch between patches and kernel version
+    };
 
     # Modules support for flakes
     flake-parts = {
@@ -83,6 +86,11 @@
     # https://github.com/fufexan/nix-gaming
     nix-gaming.url = "github:fufexan/nix-gaming";
 
+    nix-snapd = {
+      url = "github:nix-community/nix-snapd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
@@ -96,11 +104,11 @@
       spicetify-nix,
       poetry2nix,
       nixos-hardware,
-      cachynix,
       nix-gaming,
       burpsuitepro,
       joplin-desktop,
       neovim-nightly-overlay,
+      nix-snapd,
       ...
     }@inputs:
     let
@@ -120,7 +128,10 @@
             ./configuration.nix
             home-manager.nixosModules.home-manager
             spicetify-nix.nixosModules.spicetify
-            cachynix.nixosModules.default
+            # cachynix.nixosModules.default
+            nix-snapd.nixosModules.default
+
+            # https://blog.kaorubb.org/en/posts/nixos-fix-could-not-start-dynamically-linked-executable/
             nix-ld.nixosModules.nix-ld
             { programs.nix-ld.dev.enable = true; }
             {

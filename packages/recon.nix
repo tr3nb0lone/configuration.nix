@@ -1,4 +1,11 @@
-{ inputs, config, lib, pkgs, modulesPath, ... }:
+{
+  inputs,
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 {
   # List packages installed in system profile. To search, run:
@@ -18,8 +25,20 @@
     samba
     smbmap
     enum4linux-ng
-    # wireshark 
+    # wireshark
     smbclient-ng
+
+    # temp
+    subfinder
+    amass
+    nuclei
+    httpx
+    dnsx
+    gau
+    assetfinder
+    dalfox
+    waybackurls
+    katana
 
   ];
 }

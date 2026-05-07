@@ -1,16 +1,21 @@
 # packages
-
-{ inputs, pkgs, lib, config, ... }:
+{
+  inputs,
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 {
   imports = [
     # General programs
     ./utils.nix
 
-    # Development 
+    # Development
     ./dev.nix
 
-    # Security	
+    # Security
     ./windows.nix
     ./recon.nix
     ./web.nix

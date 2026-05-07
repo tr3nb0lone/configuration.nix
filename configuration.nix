@@ -14,7 +14,7 @@
   hardware.enableAllFirmware = true;
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_cachyos-lto.cachyOverride { mArch = "GENERIC_V3"; };
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
     extraModulePackages = with config.boot.kernelPackages; [
       rtw88
     ];
@@ -102,6 +102,11 @@
 
   };
 
+  # misc overlays:
+  nixpkgs.overlays = [
+    inputs.nix-cachyos-kernel.overlays.pinned
+  ];
+
   # Enable bluetooth
   hardware.bluetooth = {
     enable = true;
@@ -147,6 +152,7 @@
           "1.1.1.1"
           "8.8.8.8"
         ];
+        insecure-registries = "";
       };
     };
   };
@@ -232,7 +238,7 @@
     };
 
     # snap:
-    snap.enable = true;
+    snap.enable = false;
 
     # enable fingerprint
     fprintd.enable = true;

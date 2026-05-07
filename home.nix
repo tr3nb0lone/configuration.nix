@@ -174,6 +174,14 @@ in
     recursive = true;
   }) configs;
 
+  # QT
+  qt = {
+    enable = true;
+    style.name = "adwaita-dark";
+    platformTheme.name = "gtk3";
+
+  };
+
   # Theming:
   gtk = {
     enable = true;
@@ -264,17 +272,14 @@ in
     # LSPs
     bash-language-server
     lua-language-server
-    typescript-language-server
-    gopls
+    markdown-oxide
     nil
-    pyright
 
     opencode
     nixfmt
 
     # misc nvim
     luajitPackages.luarocks-nix
-    gotools
     stylua
   ];
 }

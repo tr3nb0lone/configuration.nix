@@ -30,9 +30,7 @@
     zsh
     tmux
     openvpn
-    macchanger
     brightnessctl
-    soapui
     ghex
     jq
     ntp
@@ -59,8 +57,6 @@
     xdg-utils
     inetutils
     wirelesstools
-    airgeddon
-    aircrack-ng
     libfaketime
     wireguard-tools
     wol
@@ -78,7 +74,7 @@
     firefox-bin
     # libreoffice-bin
     libreoffice-qt-fresh
-    gnome-disk-utility   
+    gnome-disk-utility
     filezilla
 
     # remote-access
