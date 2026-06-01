@@ -177,5 +177,3 @@ exec_always --no-startup-id $HOME/configuration.nix/config/utils/setup.sh
 # Custom Rules:
 for_window [class=".*burp-StartBurp.*" title="^ $"] floating enable
 for_window [class=".*jetbrains*" title="^ $"] floating enable
-
-assign [title="*firefox*"] -> 2

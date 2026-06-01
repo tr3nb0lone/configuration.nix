@@ -1,0 +1,180 @@
+{
+	"exclusive": true,
+	"reload_style_on_change": true,
+	"position": "bottom",
+	"mod": "dock",
+	"passthrough": false,
+	"gtk-layer-shell": true,
+	"margin-top": 1,
+	"margin-left": 8,
+	"margin-right": 8,
+	"margin-bottom": 1,
+	"modules-left": [
+		"custom/nix",
+		"hyprland/workspaces",
+		"custom/separator",
+		"custom/clock",
+		"custom/separator2"
+	],
+	"modules-center": [
+		"custom/separator",
+		"tray",
+		"custom/separator2"
+	],
+	"modules-right": [
+		"custom/separator",
+		"battery",
+		"custom/separator4",
+		"pulseaudio",
+		"custom/separator3",
+		"memory",
+		"custom/separator3",
+		"cpu",
+		"custom/separator2"
+	],
+	"hyprland/workspaces": {
+		"on-click": "activate",
+		"disable-scroll": false,
+		"all-outputs": true,
+		"cursor": true,
+		"format": "{icon}",
+		"persistent-workspaces": {
+			"1": [],
+			"9": []
+		}
+	},
+	"custom/separator": {
+		"format": "[",
+		"tooltip": false
+	},
+	"custom/pipe": {
+		"format": "|",
+		"tooltip": false
+	},
+	"custom/separator2": {
+		"format": "]",
+		"tooltip": false
+	},
+	"custom/separator3": {
+		"format": "󰿟",
+		"tooltip": false
+	},
+	"custom/separator4": {
+		"exec": "sh -c '[ -d /sys/class/backlight ] && [ \"$(ls -A /sys/class/backlight 2>/dev/null)\" ] && ls /sys/class/power_supply 2>/dev/null | grep -q \"^BAT\" && echo \"󰿟\"'",
+		"tooltip": false,
+		"interval": "once"
+	},
+	"custom/separator5": {
+		"exec": "sh -c 'if pgrep -x cliamp >/dev/null || playerctl status 2>/dev/null | grep -qE \"Playing|Paused\"; then echo \"{\\\"text\\\":\\\"[\\\",\\\"class\\\":\\\"show\\\"}\"; else echo \"{\\\"text\\\":\\\"\\\",\\\"class\\\":\\\"hide\\\"}\"; fi'",
+		"return-type": "json",
+		"interval": 2,
+		"format": "{}"
+	},
+	"custom/separator6": {
+		"exec": "sh -c 'if pgrep -x cliamp >/dev/null || playerctl status 2>/dev/null | grep -qE \"Playing|Paused\"; then echo \"{\\\"text\\\":\\\"]\\\",\\\"class\\\":\\\"show\\\"}\"; else echo \"{\\\"text\\\":\\\"\\\",\\\"class\\\":\\\"hide\\\"}\"; fi'",
+		"return-type": "json",
+		"interval": 2,
+		"format": "{}"
+	},
+	"custom/separator7": {
+		"exec": "sh -c 'count=$(busctl --user get-property org.kde.StatusNotifierWatcher /StatusNotifierWatcher org.kde.StatusNotifierWatcher RegisteredStatusNotifierItems | sed -n \"s/^as \\([0-9]\\+\\).*/\\1/p\"); if [ \"${count:-0}\" -gt 0 ]; then echo \"{\\\"text\\\":\\\"󰿟\\\",\\\"class\\\":\\\"show\\\"}\"; else echo \" {\\\"text\\\":\\\"\\\",\\\"class\\\":\\\"hide\\\"}\"; fi'",
+		"return-type": "json",
+		"interval": 2
+	},
+	"cpu": {
+		"interval": 10,
+		"format": "CPU: {usage:02}%",
+		"on-click": "",
+		"states": {
+			"warning": 50,
+			"critical": 80
+		}
+	},
+	"memory": {
+		"interval": 2,
+		"format": "  {percentage:02}%",
+		"on-click": "",
+		"states": {
+			"warning": 50,
+			"critical": 80
+		}
+	},
+	"custom/nix": {
+		"format": " 󱄅  ",
+		"on-click": "",
+		"on-click-right": "",
+		"tooltip-format": ""
+	},
+	"custom/clock": {
+		"exec": "date +'%H:%M %p - %A, %b %d' | tr '[:upper:]' '[:lower:]'",
+		"interval": 60,
+		"tooltip": false,
+		"on-click-right": ""
+	},
+	"battery": {
+		"format": "  {capacity}%",
+		"format-discharging": "  {capacity}%",
+		"format-charging": " {capacity}% ",
+		"format-plugged": "{capacity}%",
+		"format-icons": {
+			"charging": [
+				" 󰢜 ",
+				" 󰂆 ",
+				" 󰂇 ",
+				" 󰂈 ",
+				" 󰢝 ",
+				" 󰂉 ",
+				" 󰢞 ",
+				" 󰂊 ",
+				" 󰂋 ",
+				" 󰂅 "
+			],
+			"default": [
+				"󰁺",
+				"󰁻",
+				"󰁼",
+				"󰁽",
+				"󰁾",
+				"󰁿",
+				"󰂀",
+				"󰂁",
+				"󰂂",
+				"󰁹"
+			]
+		},
+		"format-full": "󱊦 ",
+		"tooltip-format-discharging": "{timeTo}",
+		"tooltip-format-charging": "{timeTo}",
+		"interval": 5,
+		"on-click": "",
+		"on-click-right": "",
+		"states": {
+			"warning": 20,
+			"critical": 10
+		}
+	},
+	"pulseaudio": {
+		"justify": "center",
+		"format": "󰕾  {volume}%",
+		"on-click": "pavucontrol",
+		"on-click-right": "pamixer -t",
+		"scroll-step": 5,
+		"format-muted": "",
+		"format-icons": {
+			"headphone": "",
+			"default": [
+				"",
+				"",
+				""
+			]
+		},
+		"states": {
+			"warning": 50,
+			"critical": 10
+		}
+	},
+	"tray": {
+		"icon-size": 17,
+		"spacing": 10
+	}
+}
