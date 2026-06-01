@@ -7,7 +7,7 @@
 
 # dotfiles mania
 let
-  dotfiles = "${config.home.homeDirectory}/configuration.nix/config";
+  dotfiles = "${config.home.homeDirectory}/configuration.nix/dots";
   create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
 
   # Standard .config/directory
@@ -72,9 +72,7 @@ in
 
     zsh = {
       enable = true;
-      initContent = ''
-        			unalias gau gf
-        		'';
+      initContent = ''unalias gau gf '';
       oh-my-zsh = {
         enable = true;
         plugins = [
@@ -97,7 +95,7 @@ in
         clone = "git clone";
 
         # nix:
-        rebuild = "sudo nixos-rebuild switch --flake ~/configuration.nix#NIX";
+        rebuild = "sudo nixos-rebuild switch --flake ~/configuration.nix#thinkpad";
         purge = "sudo nix-collect-garbage -d";
         develop = "nix develop -c $SHELL";
         sound = "systemctl --user restart pipewire.service pipewire-pulse.service";
@@ -134,18 +132,6 @@ in
         };
         SSHAgent.Enabled = false;
       };
-    };
-
-    # Direnv:
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-      enableZshIntegration = true;
-      config = builtins.fromTOML ''
-        [global]
-        log_format = "\u001B[2mdirenv: %s\u001B[0m"
-        hide_env_diff = true
-      '';
     };
 
     # nix-index:
@@ -324,6 +310,7 @@ in
     swappy
     slurp
     swappy
+    woomer
 
   ];
 }
