@@ -33,15 +33,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Easy linting of the flake and all kind of other stuff
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs.flake-compat.follows = "nixpkgs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nur.url = "github:nix-community/NUR";
-
     # Mod spotify.
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
 
@@ -103,7 +94,6 @@
       nix-ld,
       home-manager,
       flake-parts,
-      pre-commit-hooks,
       spicetify-nix,
       poetry2nix,
       nixos-hardware,
@@ -118,32 +108,24 @@
     let
       inherit (self) outputs;
       system = "x86_64-linux";
-    in
-    {
 
-      nixosConfigurations = {
-        # Config for my main host:
-        NIX = nixpkgs.lib.nixosSystem {
+      # Factor out the common bits of a nixosSystem invocation so each host is a one-liner.
+      mkHost =
+        hostName: extraModules:
+        nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = {
-            inherit inputs outputs;
-          };
+          specialArgs = { inherit inputs outputs; };
           modules = [
-            ./configuration.nix
+            ./hosts/${hostName}/configuration.nix
             home-manager.nixosModules.home-manager
-            spicetify-nix.nixosModules.spicetify
-            nix-snapd.nixosModules.default
 
-            nix-ld.nixosModules.nix-ld
-            { programs.nix-ld.dev.enable = true; }
             {
-              imports = [
-                inputs.home-manager.nixosModules.home-manager
-              ];
+              imports = [ inputs.home-manager.nixosModules.home-manager ];
+              networking.hostName = hostName;
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                users.tr3n = import ./home.nix;
+                users.tr3n = import ./home/home.nix;
                 backupFileExtension = "backup";
               };
               home-manager.extraSpecialArgs = {
@@ -154,15 +136,25 @@
                   config.allowUnfree = true;
                   config.allowBroken = true;
                   config.allowUnsupportedSystem = true;
-                  overlays = [
-                    # impacket overlay
-                    # (import nixos/overlays/impacket-overlay)
-                  ];
+                  overlays = [ ];
                 };
               };
             }
-          ];
+          ]
+          ++ extraModules;
         };
+    in
+    {
+      nixosConfigurations = {
+        # per-host config:
+        thinkpad = mkHost "thinkpad" [
+          spicetify-nix.nixosModules.spicetify
+          nix-snapd.nixosModules.default
+          nix-ld.nixosModules.nix-ld
+        ];
+
+        # INFO: you can also waste more time by adding more hosts!
       };
+
     };
 }

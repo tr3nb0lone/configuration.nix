@@ -8,7 +8,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./packages/default.nix
+    ../../pkgs/default.nix
   ];
 
   hardware.enableAllFirmware = true;
@@ -56,7 +56,7 @@
 
   # Nnetworking:
   networking = {
-    hostName = "NIX";
+    # hostName = "thinkpad";
     networkmanager.enable = true;
 
     # Disable NetworkManager's internal DNS resolution
@@ -182,6 +182,19 @@
         };
       };
 
+    # Direnv:
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+      enableZshIntegration = true;
+      loadInNixShell = true;
+      settings = builtins.fromTOML ''
+        [global]
+        log_format = "\u001B[2mdirenv: %s\u001B[0m"
+        hide_env_diff = true
+      '';
+    };
+
     nh = {
       enable = true;
       clean.enable = true;
@@ -303,6 +316,8 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
+    inputs.burpsuitepro.packages.${system}.default
+
     kitty
     rofi
     tmux
@@ -361,5 +376,4 @@
   ];
 
   system.stateVersion = "26.05";
-  # system.stateVersion = "25.11";
 }

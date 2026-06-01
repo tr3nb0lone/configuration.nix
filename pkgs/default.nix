@@ -1,9 +1,5 @@
 # packages
 {
-  inputs,
-  pkgs,
-  lib,
-  config,
   ...
 }:
 
@@ -14,11 +10,6 @@
 
     # Development
     ./dev.nix
-
-    # Security
-    ./windows.nix
-    ./recon.nix
-    ./web.nix
 
     # misc (?)
     ./misc.nix
