@@ -14,7 +14,6 @@ let
   configs = {
     i3 = "i3";
     nvim = "nvim";
-    neovide = "neovide";
     wezterm = "wezterm";
     i3-autodisplay = "i3-autodisplay";
     rofi = "rofi";
@@ -22,12 +21,13 @@ let
     ghostty = "ghostty";
     alacritty = "alacritty";
     picom = "picom";
+    hypr = "hypr";
     yazi = "yazi";
-    sesh = "sesh";
     tmux = "tmux";
     dunst = "dunst";
+    waybar = "waybar";
+    neovide = "neovide";
     polybar = "polybar";
-    eww = "eww";
   };
 in
 {
@@ -248,12 +248,41 @@ in
       notify = true;
       tray = "always";
     };
-  };
+    flameshot = {
+      enable = true;
 
+      # Enable wayland support with this build flag
+      package = pkgs.flameshot.override {
+        enableWlrSupport = true;
+      };
+
+      settings = {
+        General = {
+          disabledTrayIcon = true;
+          showStartupLaunchMessage = false;
+
+          # Auto save to this path
+          savePath = "${config.home.homeDirectory}/Pictures/Screenshots";
+          savePathFixed = true;
+          saveAsFileExtension = ".jpg";
+          filenamePattern = "%F_%H-%M";
+          drawThickness = 1;
+          copyPathAfterSave = true;
+
+          # For wayland
+          useGrimAdapter = true;
+        };
+      };
+    };
+
+  };
+  # MISC
+  # wayland.windowManager.hyprland.systemd.enable = false;
   home.packages = with pkgs; [
     inputs.joplin-desktop.packages.${system}.default
     ripgrep
     fd
+    cloc
     nodejs
     gcc
     deno
@@ -274,6 +303,7 @@ in
     lua-language-server
     markdown-oxide
     nil
+    vscode-json-languageserver
 
     opencode
     nixfmt
@@ -281,5 +311,19 @@ in
     # misc nvim
     luajitPackages.luarocks-nix
     stylua
+
+    # wl
+    hyprpaper
+    hyprlock
+    hyprshell
+    hyprpanel
+    wl-clipboard
+    fuzzel
+    waybar
+    grim
+    swappy
+    slurp
+    swappy
+
   ];
 }

@@ -91,6 +91,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Hyprland:
+    hyprland.url = "github:hyprwm/Hyprland";
+
   };
 
   outputs =
@@ -109,6 +112,7 @@
       joplin-desktop,
       neovim-nightly-overlay,
       nix-snapd,
+      hyprland,
       ...
     }@inputs:
     let
@@ -128,16 +132,13 @@
             ./configuration.nix
             home-manager.nixosModules.home-manager
             spicetify-nix.nixosModules.spicetify
-            # cachynix.nixosModules.default
             nix-snapd.nixosModules.default
 
-            # https://blog.kaorubb.org/en/posts/nixos-fix-could-not-start-dynamically-linked-executable/
             nix-ld.nixosModules.nix-ld
             { programs.nix-ld.dev.enable = true; }
             {
               imports = [
                 inputs.home-manager.nixosModules.home-manager
-                # spicetify-nix.nixosModules.spicetify
               ];
               home-manager = {
                 useGlobalPkgs = true;

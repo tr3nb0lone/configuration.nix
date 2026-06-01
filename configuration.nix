@@ -12,6 +12,7 @@
   ];
 
   hardware.enableAllFirmware = true;
+  xdg.portal.enable = true;
 
   boot = {
     kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
@@ -152,7 +153,7 @@
           "1.1.1.1"
           "8.8.8.8"
         ];
-        insecure-registries = "";
+        # insecure-registries = "";
       };
     };
   };
@@ -169,6 +170,7 @@
           adblock
           hidePodcasts
         ];
+
         theme = {
           name = "text";
           src = pkgs.fetchFromGitHub {
@@ -178,9 +180,6 @@
             hash = "sha256-aS4Gv0FYDMWk649v3CiDDFku2HstaQSWwT46Do03Fg4=";
           };
         };
-
-        # theme = spicePkgs.themes.text;
-        # colorScheme = "RosePine";
       };
 
     nh = {
@@ -188,6 +187,18 @@
       clean.enable = true;
       # clean.extraArgs = "--keep-since 4d --keep 3";
       flake = "/home/tr3n/configuration.nix/";
+    };
+
+    # Hypr
+    hyprland = {
+      enable = true;
+
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      portalPackage =
+        inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+
+      withUWSM = true;
+      xwayland.enable = true;
     };
 
     zsh = {
@@ -198,6 +209,11 @@
         	eval "$(direnv hook zsh)"
         	bindkey -s ^f "sessionizer.sh\n"
       '';
+    };
+
+    appimage = {
+      enable = true;
+      binfmt = true;
     };
 
     # misc-programs:
@@ -344,5 +360,6 @@
     "flakes"
   ];
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
+  # system.stateVersion = "25.11";
 }

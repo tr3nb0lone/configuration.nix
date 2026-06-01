@@ -20,7 +20,6 @@
     fzf
     zoxide
     sesh
-    neovide
     docker-compose
     podman-compose
     podman-desktop
