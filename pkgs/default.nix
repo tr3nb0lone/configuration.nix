@@ -1,5 +1,6 @@
 # packages
 {
+  pkgs,
   ...
 }:
 
@@ -15,4 +16,13 @@
     ./misc.nix
 
   ];
+
+  environment.systemPackages = [
+
+    # (pkgs.callPackage ./packages/obsidian.nix { })
+    # (pkgs.callPackage ./packages/balena-etcher.nix { })
+    (pkgs.callPackage ./apps/neovide.nix { })
+
+  ];
+
 }
