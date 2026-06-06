@@ -59,14 +59,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Joplin:
-    joplin-desktop = {
-      type = "github";
-      owner = "tr3nb0lone";
-      repo = "joplin-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # nvim
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
@@ -85,6 +77,12 @@
     # Hyprland:
     hyprland.url = "github:hyprwm/Hyprland";
 
+    # Quickshell:
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
@@ -99,10 +97,10 @@
       nixos-hardware,
       nix-gaming,
       burpsuitepro,
-      joplin-desktop,
       neovim-nightly-overlay,
       nix-snapd,
       hyprland,
+      quickshell,
       ...
     }@inputs:
     let
