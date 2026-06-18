@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   inputs,
   ...
 }:
@@ -15,13 +14,13 @@
   xdg.portal.enable = true;
 
   boot = {
-    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
-    extraModulePackages = with config.boot.kernelPackages; [
-      rtw88
-    ];
-    blacklistedKernelModules = [
-      "rtw88_8821ce"
-    ];
+    #    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
+    #    extraModulePackages = with config.boot.kernelPackages; [
+    #      rtw88
+    #    ];
+    #    blacklistedKernelModules = [
+    #      "rtw88_8821ce"
+    #    ];
     plymouth = {
       enable = true;
       theme = "nixos-bgrt";
@@ -236,10 +235,10 @@
   };
 
   # Virtualization:
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
-  };
+  # virtualisation.libvirtd = {
+  #   enable = true;
+  #   qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+  # };
 
   services = {
     # List services that you want to enable:
@@ -270,7 +269,7 @@
     snap.enable = false;
 
     # enable fingerprint
-    fprintd.enable = true;
+    fprintd.enable = false;
 
     # picom
     picom.enable = true;
@@ -294,8 +293,8 @@
     displayManager.ly.enable = true;
 
     # misc virtualization
-    qemuGuest.enable = true;
-    spice-vdagentd.enable = true;
+    # qemuGuest.enable = true;
+    # spice-vdagentd.enable = true;
 
     # Tailscale
     tailscale = {
@@ -315,9 +314,9 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
-    inputs.burpsuitepro.packages.${system}.default
-
+    #    inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
+    #    inputs.burpsuitepro.packages.${system}.default
+    neovim
     kitty
     rofi
     tmux
@@ -330,9 +329,9 @@
     flameshot
     picom
     thunar
-    obs-studio
-    chromium
-    vlc
+    #    obs-studio
+    #    chromium
+    #    vlc
     pavucontrol
     pulseaudio
     dunst
@@ -341,14 +340,7 @@
     bluez-tools
     font-awesome
     nerd-fonts.jetbrains-mono
-
-    # embarassing!
-    android-tools
-    android-studio
-
-    frida-tools
-    apktool
-    jadx
+    cachix
 
   ];
 
@@ -370,10 +362,37 @@
     };
   };
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix = {
+    channel.enable = false;
+
+    # High-level NixOS definitions (evaluated by modules)
+    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+    registry.nixpkgs.flake = inputs.nixpkgs;
+
+    # Daemon settings (written to /etc/nix/nix.conf)
+    settings = {
+      keep-outputs = true;
+      keep-derivations = true;
+      warn-dirty = false;
+
+      auto-optimise-store = true;
+      flake-registry = "";
+      tarball-ttl = 604800; # 7 days in seconds
+
+      substituters = [ "https://hyprland.cachix.org" ];
+      trusted-substituters = [ "https://hyprland.cachix.org" ];
+      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+      trusted-users = [
+        "root"
+        "@wheel"
+      ];
+
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+    };
+  };
 
   system.stateVersion = "26.05";
 }

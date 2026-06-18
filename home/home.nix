@@ -72,7 +72,7 @@ in
 
     zsh = {
       enable = true;
-      initContent = ''unalias gau gf '';
+      initContent = "unalias gau gf ";
       oh-my-zsh = {
         enable = true;
         plugins = [
@@ -265,7 +265,6 @@ in
   # MISC
   # wayland.windowManager.hyprland.systemd.enable = false;
   home.packages = with pkgs; [
-    inputs.joplin-desktop.packages.${system}.default
     ripgrep
     fd
     cloc
@@ -275,7 +274,7 @@ in
     lazygit
     lazydocker
     handbrake
-    tor-browser
+    #    tor-browser
     material-design-icons
     gnome-themes-extra
     font-awesome
@@ -285,13 +284,12 @@ in
     i3-auto-layout
 
     # LSPs
-    bash-language-server
-    lua-language-server
-    markdown-oxide
+    #    bash-language-server
+    #    lua-language-server
+    #    markdown-oxide
     nil
-    vscode-json-languageserver
+    #    vscode-json-languageserver
 
-    opencode
     nixfmt
 
     # misc nvim

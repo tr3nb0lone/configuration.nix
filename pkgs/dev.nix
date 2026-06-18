@@ -10,11 +10,9 @@
     glfw
     cargo
     rustup
-    maven
     uv
     nasm
 
-    docker_28
     wezterm
     ghostty
     fzf
@@ -28,7 +26,6 @@
 
     # DB related:
     sqlitebrowser
-    dbeaver-bin
     mariadb
     sqlcmd
 

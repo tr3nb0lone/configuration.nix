@@ -620,26 +620,6 @@
         "type": "github"
       }
     },
-    "joplin-desktop": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1770476033,
-        "narHash": "sha256-4qQC7k5CVzD8oinLWTFbjMeJkZ64jI1sruA0KDIPRHU=",
-        "owner": "tr3nb0lone",
-        "repo": "joplin-flake",
-        "rev": "43d9962bb6162d0888466604ec59e7e0e9cbd9a6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tr3nb0lone",
-        "repo": "joplin-flake",
-        "type": "github"
-      }
-    },
     "neovim-nightly-overlay": {
       "inputs": {
         "flake-parts": "flake-parts_2",
@@ -1059,7 +1039,6 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
-        "joplin-desktop": "joplin-desktop",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-alien": "nix-alien",
         "nix-cachyos-kernel": "nix-cachyos-kernel",

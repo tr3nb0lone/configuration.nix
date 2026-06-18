@@ -152,19 +152,19 @@ client.placeholder      $base00 $base00 $base05 $base00 $base00
 client.background       $base07
 
 # feh - Image utils 
-exec_always --no-startup-id sh $HOME/configuration.nix/config/feh/fehbg
+exec_always --no-startup-id sh $HOME/configuration.nix/dots/feh/fehbg
 
 # picom + polybar:
-exec_always --no-startup-id picom -b --config $HOME/configuration.nix/config/picom/picom.conf
-exec_always --no-startup-id $HOME/configuration.nix/config/polybar/launch.sh
+exec_always --no-startup-id picom -b --config $HOME/configuration.nix/dots/picom/picom.conf
+exec_always --no-startup-id $HOME/configuration.nix/dots/polybar/launch.sh
 
 # screenshot
 bindsym $mod+P exec flameshot gui
 
 # Utils
-bindsym $mod+m exec --no-startup-id $HOME/configuration.nix/config/utils/monitor.sh 
-bindsym $mod+Shift+m exec --no-startup-id $HOME/configuration.nix/config/utils/laptop.sh 
-bindsym $mod+Shift+s exec --no-startup-id $HOME/configuration.nix/config/utils/setup.sh
+bindsym $mod+m exec --no-startup-id $HOME/configuration.nix/dots/utils/monitor.sh 
+bindsym $mod+Shift+m exec --no-startup-id $HOME/configuration.nix/dots/utils/laptop.sh 
+bindsym $mod+Shift+s exec --no-startup-id $HOME/configuration.nix/dots/utils/setup.sh
 
 # i3-utils
 exec_always --no-startup-id i3-autodisplay 

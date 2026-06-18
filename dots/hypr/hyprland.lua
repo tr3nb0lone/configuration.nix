@@ -10,12 +10,6 @@ hl.monitor({
 	position = "1920x0",
 	scale = "auto",
 })
-hl.monitor({
-	output = "HDMI-1",
-	mode = "1920x1080@144",
-	position = "0x0",
-	scale = "auto",
-})
 
 -- just makes it work whenever you plug a random monitor
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
