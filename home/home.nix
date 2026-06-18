@@ -72,7 +72,7 @@ in
 
     zsh = {
       enable = true;
-      initContent = ''unalias gau gf '';
+      initContent = "unalias gau gf ";
       oh-my-zsh = {
         enable = true;
         plugins = [
@@ -150,7 +150,6 @@ in
     "$HOME/.cargo/bin"
     "$HOME/go/bin"
     "$HOME/.opencode/bin"
-    "$HOME/flutter/flutter/bin"
     "$HOME/.bun/bin"
   ];
 
@@ -265,7 +264,6 @@ in
   # MISC
   # wayland.windowManager.hyprland.systemd.enable = false;
   home.packages = with pkgs; [
-    inputs.joplin-desktop.packages.${system}.default
     ripgrep
     fd
     cloc
@@ -285,24 +283,20 @@ in
     i3-auto-layout
 
     # LSPs
-    bash-language-server
     lua-language-server
-    markdown-oxide
     nil
-    vscode-json-languageserver
-
-    opencode
     nixfmt
+    #  bash-language-server
+    #  markdown-oxide
+    #  vscode-json-languageserver
 
     # misc nvim
-    luajitPackages.luarocks-nix
-    stylua
+    #   luajitPackages.luarocks-nix
+    #   stylua
 
     # wl
     hyprpaper
     hyprlock
-    hyprshell
-    hyprpanel
     wl-clipboard
     fuzzel
     waybar

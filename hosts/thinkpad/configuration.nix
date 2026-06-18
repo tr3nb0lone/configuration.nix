@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   inputs,
   ...
 }:
@@ -15,13 +14,13 @@
   xdg.portal.enable = true;
 
   boot = {
-    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
-    extraModulePackages = with config.boot.kernelPackages; [
-      rtw88
-    ];
-    blacklistedKernelModules = [
-      "rtw88_8821ce"
-    ];
+    # kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
+    # extraModulePackages = with config.boot.kernelPackages; [
+    #   rtw88
+    # ];
+    # blacklistedKernelModules = [
+    #   "rtw88_8821ce"
+    # ];
     plymouth = {
       enable = true;
       theme = "nixos-bgrt";
@@ -56,7 +55,6 @@
 
   # Nnetworking:
   networking = {
-    # hostName = "thinkpad";
     networkmanager.enable = true;
 
     # Disable NetworkManager's internal DNS resolution
@@ -98,7 +96,6 @@
     # get `deprecated / insecure / unmaintained` packages:
     permittedInsecurePackages = [
       "python-2.7.18.8"
-      "python-2.7.18.12"
     ];
 
   };
@@ -135,7 +132,7 @@
   virtualisation.containers.enable = true;
   virtualisation = {
     podman = {
-      enable = true;
+      enable = false;
       dockerCompat = true; # Create a `docker` alias for podman, to use it as a drop-in replacement
       defaultNetwork.settings.dns_enabled = true; # Required for containers under podman-compose to be able to talk to each other.
     };
@@ -145,7 +142,7 @@
   virtualisation.docker = {
     enable = false; # Consider disabling the system wide Docker daemon, prevent easy privesc dummy.
     rootless = {
-      enable = true;
+      enable = false;
       setSocketVariable = true;
       # Optionally customize rootless Docker daemon settings
       daemon.settings = {
@@ -165,7 +162,7 @@
         spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
       in
       {
-        enable = true;
+        enable = false;
         enabledExtensions = with spicePkgs.extensions; [
           adblock
           hidePodcasts
@@ -237,7 +234,7 @@
 
   # Virtualization:
   virtualisation.libvirtd = {
-    enable = true;
+    enable = false;
     qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
   };
 
@@ -270,10 +267,10 @@
     snap.enable = false;
 
     # enable fingerprint
-    fprintd.enable = true;
+    fprintd.enable = false;
 
     # picom
-    picom.enable = true;
+    picom.enable = false;
 
     blueman = {
       enable = true;
@@ -294,8 +291,8 @@
     displayManager.ly.enable = true;
 
     # misc virtualization
-    qemuGuest.enable = true;
-    spice-vdagentd.enable = true;
+    qemuGuest.enable = false;
+    spice-vdagentd.enable = false;
 
     # Tailscale
     tailscale = {
@@ -315,52 +312,42 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
-    inputs.burpsuitepro.packages.${system}.default
+    #   inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
+    #   inputs.burpsuitepro.packages.${system}.default
 
     kitty
     rofi
     tmux
     polybar
     ayugram-desktop
-    vesktop
+    #    vesktop
     keepassxc
     arandr
     feh
     flameshot
-    picom
     thunar
-    obs-studio
-    chromium
-    vlc
+    #    obs-studio
+    #    chromium
+    #    vlc
     pavucontrol
     pulseaudio
-    dunst
     bluez
     lxappearance
     bluez-tools
-    font-awesome
+    #    font-awesome
     nerd-fonts.jetbrains-mono
-
-    # embarassing!
-    android-tools
-    android-studio
-
-    frida-tools
-    apktool
-    jadx
 
   ];
 
   # font setting:
   fonts = {
     packages = with pkgs; [
-      inter
-      proggyfonts
-      material-design-icons
-      material-icons
+      #     inter
+      #     proggyfonts
+      #     material-design-icons
+      #     material-icons
       corefonts
-      powerline
+      #     powerline
 
     ];
     fontDir.enable = true;
@@ -370,10 +357,37 @@
     };
   };
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix = {
+    channel.enable = false;
+
+    # High-level NixOS definitions (evaluated by modules)
+    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+    registry.nixpkgs.flake = inputs.nixpkgs;
+
+    # Daemon settings (written to /etc/nix/nix.conf)
+    settings = {
+      keep-outputs = true;
+      keep-derivations = true;
+      warn-dirty = false;
+
+      auto-optimise-store = true;
+      flake-registry = "";
+      tarball-ttl = 604800; # 7 days in seconds
+
+      substituters = [ "https://hyprland.cachix.org" ];
+      trusted-substituters = [ "https://hyprland.cachix.org" ];
+      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+      trusted-users = [
+        "root"
+        "@wheel"
+      ];
+
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+    };
+  };
 
   system.stateVersion = "26.05";
 }
