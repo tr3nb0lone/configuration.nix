@@ -21,7 +21,8 @@
 
     # (pkgs.callPackage ./packages/obsidian.nix { })
     # (pkgs.callPackage ./packages/balena-etcher.nix { })
-    #    (pkgs.callPackage ./apps/neovide.nix { })
+    (pkgs.callPackage ./apps/neovide.nix { })
+    (pkgs.callPackage ./apps/silverbullet.nix { })
 
   ];
 

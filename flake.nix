@@ -42,12 +42,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # https://github.com/nix-community/poetry2nix
-    poetry2nix = {
-      url = "github:nix-community/poetry2nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # https://github.com/NixOS/nixos-hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -60,7 +54,7 @@
     };
 
     # nvim
-    neovim-nightly-overlay = {
+    neovim = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -83,6 +77,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # languages I want to have everywhere:
+    go-overlay = {
+      url = "github:purpleclay/go-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # DMS:
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
@@ -93,13 +99,13 @@
       home-manager,
       flake-parts,
       spicetify-nix,
-      poetry2nix,
       nixos-hardware,
       nix-gaming,
       burpsuitepro,
-      neovim-nightly-overlay,
+      neovim,
       nix-snapd,
       hyprland,
+      go-overlay,
       quickshell,
       ...
     }@inputs:

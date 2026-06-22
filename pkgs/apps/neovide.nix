@@ -9,7 +9,7 @@ let
 
   src = fetchurl {
     url = "https://github.com/neovide/neovide/releases/download/nightly/neovide.AppImage";
-    hash = "sha256-SZr3sAqVWeC6GX6Dpn6Tov0GZRLMuGiLjEen9OVXJ5I=";
+    hash = "sha256-Mm4Vt6ypjTvUZnuGU0Gi4A+ZpRcnrdbBcXn2Hi6/NHA=";
   };
 
   appimageContents = pkgs.appimageTools.extractType2 {

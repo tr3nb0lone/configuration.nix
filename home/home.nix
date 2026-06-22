@@ -274,7 +274,7 @@ in
     lazygit
     lazydocker
     handbrake
-    #    tor-browser
+    tor-browser
     material-design-icons
     gnome-themes-extra
     font-awesome
@@ -284,11 +284,11 @@ in
     i3-auto-layout
 
     # LSPs
-    #    bash-language-server
-    #    lua-language-server
-    #    markdown-oxide
+    bash-language-server
+    lua-language-server
+    markdown-oxide
     nil
-    #    vscode-json-languageserver
+    vscode-json-languageserver
 
     nixfmt
 

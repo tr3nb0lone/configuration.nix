@@ -8,6 +8,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../pkgs/default.nix
+    inputs.dms.nixosModules.dank-material-shell
   ];
 
   hardware.enableAllFirmware = true;
@@ -55,7 +56,6 @@
 
   # Nnetworking:
   networking = {
-    # hostName = "thinkpad";
     networkmanager.enable = true;
 
     # Disable NetworkManager's internal DNS resolution
@@ -228,6 +228,24 @@
       binfmt = true;
     };
 
+    # DMS
+    dms-shell = {
+      enable = true;
+
+      systemd = {
+        enable = true;
+        restartIfChanged = true;
+      };
+
+      # Core features
+      enableSystemMonitoring = true;
+      enableVPN = true;
+      enableDynamicTheming = true;
+      enableAudioWavelength = true;
+      enableCalendarEvents = true;
+      enableClipboardPaste = true;
+    };
+
     # misc-programs:
     kdeconnect.enable = true;
     nm-applet.enable = true;
@@ -235,10 +253,10 @@
   };
 
   # Virtualization:
-  # virtualisation.libvirtd = {
-  #   enable = true;
-  #   qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
-  # };
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+  };
 
   services = {
     # List services that you want to enable:
@@ -266,13 +284,10 @@
     };
 
     # snap:
-    snap.enable = false;
+    snap.enable = true;
 
     # enable fingerprint
     fprintd.enable = false;
-
-    # picom
-    picom.enable = true;
 
     blueman = {
       enable = true;
@@ -293,8 +308,8 @@
     displayManager.ly.enable = true;
 
     # misc virtualization
-    # qemuGuest.enable = true;
-    # spice-vdagentd.enable = true;
+    qemuGuest.enable = true;
+    spice-vdagentd.enable = true;
 
     # Tailscale
     tailscale = {
@@ -314,10 +329,12 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    #    inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
     #    inputs.burpsuitepro.packages.${system}.default
-    neovim
+    # inputs.neovim.packages.${pkgs.hostPlatform.system}.default
+    inputs.go-overlay.packages.${pkgs.hostPlatform.system}.default
+
     kitty
+    neovim
     rofi
     tmux
     polybar
@@ -376,7 +393,7 @@
       warn-dirty = false;
 
       auto-optimise-store = true;
-      flake-registry = "";
+      # flake-registry = false;
       tarball-ttl = 604800; # 7 days in seconds
 
       substituters = [ "https://hyprland.cachix.org" ];

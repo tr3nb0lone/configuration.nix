@@ -6,7 +6,6 @@
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
-    go
     glfw
     cargo
     rustup

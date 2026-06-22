@@ -34,10 +34,10 @@ local bar = "waybar"
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 hl.on("hyprland.start", function()
-	hl.exec_cmd("nm-applet")
+	-- hl.exec_cmd("nm-applet")
+	-- hl.exec_cmd(bar)
 	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd(keepass)
-	hl.exec_cmd(bar)
 end)
 
 -------------------------------
@@ -200,10 +200,11 @@ hl.gesture({
 
 local mainMod = "ALT"
 
--- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + P", hl.dsp.exec_cmd('grim -g "$(slurp)" - | swappy -f -'))
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy'))
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd(lock))
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
