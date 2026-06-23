@@ -15,13 +15,9 @@
   xdg.portal.enable = true;
 
   boot = {
-    #    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
-    #    extraModulePackages = with config.boot.kernelPackages; [
-    #      rtw88
-    #    ];
-    #    blacklistedKernelModules = [
-    #      "rtw88_8821ce"
-    #    ];
+    extraModprobeConfig = ''
+      options thinkpad_acpi fan_control=1 experimental=1
+    '';
     plymouth = {
       enable = true;
       theme = "nixos-bgrt";
@@ -313,6 +309,19 @@
     # misc virtualization
     qemuGuest.enable = true;
     spice-vdagentd.enable = true;
+
+    # thinkfan
+    thinkfan = {
+      enable = true;
+      # echo level 4 > /proc/acpi/ibm/fan
+      # settings = "";
+      fans = [
+        {
+          type = "tpacpi";
+          query = "/proc/acpi/ibm/fan";
+        }
+      ];
+    };
 
     # Tailscale
     tailscale = {
