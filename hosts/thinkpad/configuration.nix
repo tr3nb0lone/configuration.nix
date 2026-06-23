@@ -104,7 +104,7 @@
 
   # misc overlays:
   nixpkgs.overlays = [
-    inputs.nix-cachyos-kernel.overlays.pinned
+    # inputs.nix-cachyos-kernel.overlays.pinned
   ];
 
   # Enable bluetooth
@@ -289,6 +289,9 @@
     # enable fingerprint
     fprintd.enable = false;
 
+    # picom
+    picom.enable = true;
+
     blueman = {
       enable = true;
       # withApplet = true;
@@ -329,12 +332,11 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    #    inputs.burpsuitepro.packages.${system}.default
-    # inputs.neovim.packages.${pkgs.hostPlatform.system}.default
-    inputs.go-overlay.packages.${pkgs.hostPlatform.system}.default
+    #    inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
+    inputs.burpsuitepro.packages.${system}.default
 
-    kitty
     neovim
+    kitty
     rofi
     tmux
     polybar
@@ -393,7 +395,7 @@
       warn-dirty = false;
 
       auto-optimise-store = true;
-      # flake-registry = false;
+      flake-registry = "";
       tarball-ttl = 604800; # 7 days in seconds
 
       substituters = [ "https://hyprland.cachix.org" ];
