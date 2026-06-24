@@ -65,7 +65,7 @@
     nameservers = [
       "1.1.1.1"
       "8.8.8.8"
-      "100.100.100.100" # tailscale
+      # "100.100.100.100" # tailscale
     ];
 
     # but I trust everything!
@@ -176,6 +176,12 @@
           };
         };
       };
+
+    # nvim
+    neovim = {
+      enable = true;
+      package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+    };
 
     # Direnv:
     direnv = {
@@ -341,10 +347,9 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    #    inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
     inputs.burpsuitepro.packages.${system}.default
 
-    neovim
+    # neovim
     kitty
     rofi
     tmux
@@ -392,8 +397,6 @@
 
   nix = {
     channel.enable = false;
-
-    # High-level NixOS definitions (evaluated by modules)
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
     registry.nixpkgs.flake = inputs.nixpkgs;
 

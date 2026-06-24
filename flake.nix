@@ -15,12 +15,6 @@
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
-    # get the CachyOS kernel
-    nix-cachyos-kernel = {
-      url = "github:xddxdd/nix-cachyos-kernel/release";
-      # Do not override its nixpkgs input, otherwise there can be mismatch between patches and kernel version
-    };
-
     # Modules support for flakes
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
@@ -54,10 +48,7 @@
     };
 
     # nvim
-    neovim = {
-      url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
     # Nix Gaming for Steam platformOptimizations
     # https://github.com/fufexan/nix-gaming
@@ -102,7 +93,7 @@
       nixos-hardware,
       nix-gaming,
       burpsuitepro,
-      neovim,
+      neovim-nightly-overlay,
       nix-snapd,
       hyprland,
       go-overlay,
