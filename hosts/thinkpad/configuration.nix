@@ -13,6 +13,7 @@
 
   hardware.enableAllFirmware = true;
   xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   boot = {
     extraModprobeConfig = ''
@@ -100,7 +101,7 @@
 
   # misc overlays:
   nixpkgs.overlays = [
-    # inputs.nix-cachyos-kernel.overlays.pinned
+    inputs.go-overlay.overlays.default
   ];
 
   # Enable bluetooth
@@ -180,8 +181,17 @@
     # nvim
     neovim = {
       enable = true;
-      package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+      package = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
     };
+
+    # nixld - obsolete since nix-ld dev is enabled
+    # nix-ld = {
+    #   enable = true;
+    #   libraries = with pkgs; [
+    #     libsecret
+    #
+    #   ];
+    # };
 
     # Direnv:
     direnv = {
@@ -286,13 +296,13 @@
     };
 
     # snap:
-    snap.enable = true;
+    snap.enable = false;
 
     # enable fingerprint
     fprintd.enable = false;
 
     # picom
-    picom.enable = true;
+    picom.enable = false;
 
     blueman = {
       enable = true;
@@ -347,7 +357,7 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    inputs.burpsuitepro.packages.${system}.default
+    inputs.burpsuitepro.packages.${stdenv.hostPlatform.system}.default
 
     # neovim
     kitty
@@ -359,7 +369,6 @@
     keepassxc
     arandr
     feh
-    flameshot
     picom
     thunar
     #    obs-studio
@@ -376,6 +385,21 @@
     cachix
 
   ];
+
+  environment.sessionVariables = {
+    # Forces Qt apps to use wayland
+    QT_QPA_PLATFORM = "wayland;xcb";
+
+    # Fixes pixelation/blur in Qt apps by letting them handle fractional scaling natively
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    QT_SCALE_FACTOR_ROUNDING_POLICY = "RoundPreferFloor";
+
+    # Forces GTK apps to use wayland
+    GDK_BACKEND = "wayland,x11";
+
+    # Fixes blank screens/pixelation in Java GUI apps (like Minecraft or JetBrains IDEs)
+    _JAVA_AWT_WM_NONREPARENTING = "1";
+  };
 
   # font setting:
   fonts = {

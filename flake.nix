@@ -109,7 +109,7 @@
         hostName: extraModules:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = { inherit inputs outputs system; };
           modules = [
             ./hosts/${hostName}/configuration.nix
             home-manager.nixosModules.home-manager
