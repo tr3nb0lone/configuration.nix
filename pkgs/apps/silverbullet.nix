@@ -1,52 +1,84 @@
 {
-  autoPatchelfHook,
-  common-updater-scripts,
-  fetchzip,
   lib,
-  stdenv,
-  stdenvNoCC,
-  writeShellScript,
+  fetchFromGitHub,
+  buildNpmPackage,
+  buildGoModule,
+  replaceVars,
 }:
-stdenvNoCC.mkDerivation (finalAttrs: {
+
+buildGoModule (finalAttrs: {
   pname = "silverbullet";
-  version = "2.6.1";
+  version = "2.9.0";
 
-  src =
-    finalAttrs.passthru.sources.${stdenv.hostPlatform.system}
-      or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+  src = fetchFromGitHub {
+    owner = "silverbulletmd";
+    repo = "silverbullet";
+    rev = finalAttrs.version;
+    hash = "sha256-XQ0OKkiQrrmwmdGXk3dcim/2qosenF3EG2lkglQQ/iY=";
+  };
 
-  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ autoPatchelfHook ];
+  vendorHash = "sha256-8zZlhVptJq8y3k2DBghJ0lPNcIcaZYkrxN67b6dNBPs=";
 
-  buildInputs = [ stdenv.cc.cc.lib ];
+  subPackages = [ "." ];
+
+  frontend = buildNpmPackage {
+    pname = "silverbullet-frontend";
+    inherit (finalAttrs) version src;
+
+    npmDepsHash = "sha256-Twcv3I3scF09onJQdYsc1zOFzMFPOEyPF7VPYa7LBko=";
+
+    patches = [
+      (replaceVars ./override-public-version.patch { inherit (finalAttrs) version; })
+    ];
+
+    postBuild = ''
+      npm run build:plug-compile
+    '';
+
+    installPhase = ''
+      runHook preInstall
+
+      mkdir -p $out
+      cp -r client_bundle public_version.ts $out/
+
+      runHook postInstall
+    '';
+  };
+
+  preBuild = ''
+    cp -r ${finalAttrs.frontend}/client_bundle .
+    cp ${finalAttrs.frontend}/public_version.ts .
+  '';
 
   installPhase = ''
     runHook preInstall
-    mkdir -p $out/bin
-    cp $src/silverbullet $out/bin/
+
+    install -Dm755 "$GOPATH/bin/silverbullet" $out/bin/silverbullet
+
     runHook postInstall
   '';
 
-  passthru = {
-    sources = {
-      "x86_64-linux" = fetchzip {
-        url = "https://github.com/silverbulletmd/silverbullet/releases/download/${finalAttrs.version}/silverbullet-server-linux-x86_64.zip";
-        hash = "sha256-m0bQ3J99WZ9CBrA7M2i7Sh/lOI5c+z/an+9bNfQZW4c=";
-        stripRoot = false;
-      };
-      "aarch64-darwin" = fetchzip {
-        url = "https://github.com/silverbulletmd/silverbullet/releases/download/${finalAttrs.version}/silverbullet-server-darwin-aarch64.zip";
-        hash = "sha256-K/4w4jsa+RIYQA9cW2U/oycJx7PfUzcdG6WjZswRLU0=";
-        stripRoot = false;
-      };
-    };
+  passthru.updateScript = ''
+    #!/usr/bin/env nix-shell
+    #!nix-shell -i bash -p nix-update common-updater-scripts
 
-    updateScript = writeShellScript "update-silverbullet" ''
-      NEW_VERSION="$1"
-      for platform in ${lib.escapeShellArgs finalAttrs.meta.platforms}; do
-        ${lib.getExe' common-updater-scripts "update-source-version"} "silverbullet" "$NEW_VERSION" --ignore-same-version --source-key="sources.$platform"
-      done
-    '';
+    set -euo pipefail
 
+    nix-update silverbullet --src-only --override-filename
+    update-source-version silverbullet --source-key=frontend.npmDeps --ignore-same-version
+    update-source-version silverbullet --source-key=goModules --ignore-same-version
+    	  '';
+  # ./update.sh;
+
+  meta = {
+    changelog = "https://github.com/silverbulletmd/silverbullet/blob/${finalAttrs.version}/website/CHANGELOG.md";
+    description = "Open-source, self-hosted, offline-capable Personal Knowledge Management (PKM) web application";
+    homepage = "https://silverbullet.md";
+    license = lib.licenses.mit;
+    maintainers = with lib.maintainers; [
+      aorith
+      CnTeng
+    ];
+    mainProgram = "silverbullet";
   };
-
 })

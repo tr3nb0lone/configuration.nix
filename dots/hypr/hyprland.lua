@@ -14,6 +14,13 @@ hl.monitor({
 -- just makes it work whenever you plug a random monitor
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
 
+-- unscale XWayland
+hl.config({
+	xwayland = {
+		force_zero_scaling = true,
+	},
+})
+
 ---------------------
 ---- MY PROGRAMS ----
 ---------------------
@@ -46,6 +53,8 @@ end)
 
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 
+hl.env("NIXOS_OZONE_WL", "1")
+hl.env("XCURSOR_THEME", "Adwaita")
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 
@@ -190,7 +199,7 @@ hl.gesture({
 	fingers = 3,
 	direction = "up",
 	action = function()
-		hl.notification.create({ text = "I just swiped on my trackpad!", duration = 5000, icon = "ok" })
+		hl.notification.create({ text = "Stop it! Get some help.", duration = 5000, icon = "ok" })
 	end,
 })
 
