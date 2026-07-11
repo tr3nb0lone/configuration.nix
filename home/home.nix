@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   pkgs,
   ...
 }:
@@ -28,6 +27,7 @@ let
     waybar = "waybar";
     neovide = "neovide";
     polybar = "polybar";
+    quickshell = "quickshell";
   };
 in
 {
@@ -87,50 +87,55 @@ in
       shellAliases = {
         # general:
         c = "clear";
+        cat = "bat";
         x = "exit";
         v = "nvim";
+        lg = "lazygit";
         vim = "nvim";
+        nano = "nvim";
         vide = "neovide . & ;disown";
         z = "zoxide";
+        j = "just";
         clone = "git clone";
 
-        # nix:
-        rebuild = "sudo nixos-rebuild switch --flake ~/configuration.nix#thinkpad";
-        purge = "sudo nix-collect-garbage -d";
-        develop = "nix develop -c $SHELL";
-        sound = "systemctl --user restart pipewire.service pipewire-pulse.service";
-
-        # tmux
+        # tmux / herdr:
         t = "tmux";
         ta = "tmux a";
         tls = "tmux ls";
 
+        h = "herdr";
+        hls = "herdr workspace list";
+
         # services:
         dock = "DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock systemctl --user start docker";
+        sound = "systemctl --user restart pipewire.service pipewire-pulse.service";
+
+        # misc
+        develop = "nix develop -c $SHELL";
+
       };
     };
 
     # Favourite password manager:
     keepassxc = {
       enable = true;
-      autostart = true;
+      # autostart = true;
       settings = {
-        GUI = {
-          AdvancedSettings = "true";
-          ApplicationTheme = "dark";
-          MinimizeOnClose = "true";
-          ShowTrayIcon = "true";
-          TrayIconAppearance = "monochrome-light";
-          ConfigVersion = "2";
-          MinimizeAfterUnlock = "true";
-          CompactMode = "true";
-          HidePasswords = "true";
-        };
-        Browser = {
-          Enabled = "true";
-          BrowserType = "Firefox";
-        };
-        SSHAgent.Enabled = false;
+        # GUI = {
+        #   AdvancedSettings = "true";
+        #   ApplicationTheme = "dark";
+        #   MinimizeOnClose = "true";
+        #   ShowTrayIcon = "true";
+        #   TrayIconAppearance = "monochrome-light";
+        #   ConfigVersion = "2";
+        #   MinimizeAfterUnlock = "true";
+        #   CompactMode = "true";
+        #   HidePasswords = "true";
+        # };
+        # Browser = {
+        #   Enabled = "true";
+        #   BrowserType = "Firefox";
+        # };
       };
     };
 
@@ -153,6 +158,13 @@ in
     "$HOME/flutter/flutter/bin"
     "$HOME/.bun/bin"
   ];
+
+  # env:
+  home.sessionVariables = {
+    NIXOS_OZONE_WL = 1;
+    EDITOR = "nvim";
+    XCURSOR_THEME = "Adwaita";
+  };
 
   xdg.autostart.enable = true;
   xdg.configFile = builtins.mapAttrs (name: subpath: {
@@ -188,23 +200,24 @@ in
         size = 13;
       };
     };
-    gtk2.extraConfig = ''
-      	 gtk-theme-name="Orchis-Purple-Dark"
-      	 gtk-icon-theme-name="Papirus-Dark"
-      	 gtk-font-name="Iosevka Hard 13"
-      	 gtk-cursor-theme-name="Adwaita"
-      	 gtk-cursor-theme-size=0
-      	 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
-      	 gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
-      	 gtk-button-images=0
-      	 gtk-menu-images=0
-      	 gtk-enable-event-sounds=1
-      	 gtk-enable-input-feedback-sounds=1
-      	 gtk-xft-antialias=1
-      	 gtk-xft-hinting=1
-      	 gtk-xft-hintstyle="hintmedium"
-      	 gtk-xft-rgba="none"
-      	'';
+
+    # gtk2.extraConfig = ''
+    #   	 gtk-theme-name="Orchis-Purple-Dark"
+    #   	 gtk-icon-theme-name="Papirus-Dark"
+    #   	 gtk-font-name="Iosevka Hard 13"
+    #   	 gtk-cursor-theme-name="Adwaita"
+    #   	 gtk-cursor-theme-size=0
+    #   	 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+    #   	 gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+    #   	 gtk-button-images=0
+    #   	 gtk-menu-images=0
+    #   	 gtk-enable-event-sounds=1
+    #   	 gtk-enable-input-feedback-sounds=1
+    #   	 gtk-xft-antialias=1
+    #   	 gtk-xft-hinting=1
+    #   	 gtk-xft-hintstyle="hintmedium"
+    #   	 gtk-xft-rgba="none"
+    #   	'';
 
     theme = {
       name = "Orchis-Purple-Dark";
@@ -218,12 +231,12 @@ in
       '';
     };
 
-    gtk4.extraConfig = {
-      Settings = ''
-                gtk-application-prefer-dark-theme=1
-        	gtk-theme-name="Orchis-Purple-Dark"
-      '';
-    };
+    # gtk4.extraConfig = {
+    #   Settings = ''
+    #             gtk-application-prefer-dark-theme=1
+    #     	gtk-theme-name="Orchis-Purple-Dark"
+    #   '';
+    # };
   };
 
   services = {
@@ -233,32 +246,6 @@ in
       automount = true;
       notify = true;
       tray = "always";
-    };
-    flameshot = {
-      enable = true;
-
-      # Enable wayland support with this build flag
-      package = pkgs.flameshot.override {
-        enableWlrSupport = true;
-      };
-
-      settings = {
-        General = {
-          disabledTrayIcon = true;
-          showStartupLaunchMessage = false;
-
-          # Auto save to this path
-          savePath = "${config.home.homeDirectory}/Pictures/Screenshots";
-          savePathFixed = true;
-          saveAsFileExtension = ".jpg";
-          filenamePattern = "%F_%H-%M";
-          drawThickness = 1;
-          copyPathAfterSave = true;
-
-          # For wayland
-          useGrimAdapter = true;
-        };
-      };
     };
 
   };
@@ -289,6 +276,7 @@ in
     markdown-oxide
     nil
     vscode-json-languageserver
+    typescript-language-server
 
     nixfmt
 

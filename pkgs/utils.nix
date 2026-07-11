@@ -13,6 +13,8 @@
     tree
     wget
     zip
+    bat
+    just
     unzip
     unrar
     p7zip
@@ -82,6 +84,8 @@
     freerdp
     rdesktop
     remmina
+
+    lm_sensors
 
   ];
 }

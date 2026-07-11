@@ -75,6 +75,7 @@
       "tun0"
       "enp0s31f6"
     ];
+    firewall.enable = true;
     extraHosts = ''
       192.168.122.44 		KALI
     '';
@@ -371,9 +372,9 @@
     feh
     picom
     thunar
-    #    obs-studio
-    #    chromium
-    #    vlc
+    obs-studio
+    chromium
+    vlc
     pavucontrol
     pulseaudio
     dunst
@@ -397,7 +398,7 @@
     # Forces GTK apps to use wayland
     GDK_BACKEND = "wayland,x11";
 
-    # Fixes blank screens/pixelation in Java GUI apps (like Minecraft or JetBrains IDEs)
+    # Fixes blank screens/pixelation in Java GUI apps (like like Burp.)
     _JAVA_AWT_WM_NONREPARENTING = "1";
   };
 

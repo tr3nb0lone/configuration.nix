@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   # List packages installed in system profile. To search, run:
@@ -11,6 +11,12 @@
     rustup
     uv
     nasm
+    python3
+
+    # go
+    gofumpt
+    inputs.go-overlay.packages.${stdenv.hostPlatform.system}.default
+    gopls
 
     wezterm
     ghostty
@@ -18,8 +24,8 @@
     zoxide
     sesh
     docker-compose
-    podman-compose
-    podman-desktop
+    # podman-compose
+    # podman-desktop
     git
     gh
 

@@ -22,6 +22,7 @@
 
     # misc-y misc
     ffmpeg_7-full
+    libsecret # fix
 
   ];
 }
