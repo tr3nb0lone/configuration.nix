@@ -1,84 +1,37 @@
 {
+  autoPatchelfHook,
+  fetchzip,
   lib,
-  fetchFromGitHub,
-  buildNpmPackage,
-  buildGoModule,
-  replaceVars,
+  stdenv,
+  stdenvNoCC,
 }:
-
-buildGoModule (finalAttrs: {
+stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "silverbullet";
   version = "2.9.0";
 
-  src = fetchFromGitHub {
-    owner = "silverbulletmd";
-    repo = "silverbullet";
-    rev = finalAttrs.version;
-    hash = "sha256-XQ0OKkiQrrmwmdGXk3dcim/2qosenF3EG2lkglQQ/iY=";
+  src = fetchzip {
+    url = "https://github.com/silverbulletmd/silverbullet/releases/download/${finalAttrs.version}/silverbullet-server-linux-x86_64.zip";
+    hash = "sha256-5P2dCP42TgK5wDaCKxYWjn/anSF2LaK1lr3yFEcD7oI=";
+    stripRoot = false;
   };
 
-  vendorHash = "sha256-8zZlhVptJq8y3k2DBghJ0lPNcIcaZYkrxN67b6dNBPs=";
+  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ autoPatchelfHook ];
 
-  subPackages = [ "." ];
-
-  frontend = buildNpmPackage {
-    pname = "silverbullet-frontend";
-    inherit (finalAttrs) version src;
-
-    npmDepsHash = "sha256-Twcv3I3scF09onJQdYsc1zOFzMFPOEyPF7VPYa7LBko=";
-
-    patches = [
-      (replaceVars ./override-public-version.patch { inherit (finalAttrs) version; })
-    ];
-
-    postBuild = ''
-      npm run build:plug-compile
-    '';
-
-    installPhase = ''
-      runHook preInstall
-
-      mkdir -p $out
-      cp -r client_bundle public_version.ts $out/
-
-      runHook postInstall
-    '';
-  };
-
-  preBuild = ''
-    cp -r ${finalAttrs.frontend}/client_bundle .
-    cp ${finalAttrs.frontend}/public_version.ts .
-  '';
+  buildInputs = [ stdenv.cc.cc.lib ];
 
   installPhase = ''
     runHook preInstall
-
-    install -Dm755 "$GOPATH/bin/silverbullet" $out/bin/silverbullet
-
+    mkdir -p $out/bin
+    cp $src/silverbullet $out/bin/
     runHook postInstall
   '';
-
-  passthru.updateScript = ''
-    #!/usr/bin/env nix-shell
-    #!nix-shell -i bash -p nix-update common-updater-scripts
-
-    set -euo pipefail
-
-    nix-update silverbullet --src-only --override-filename
-    update-source-version silverbullet --source-key=frontend.npmDeps --ignore-same-version
-    update-source-version silverbullet --source-key=goModules --ignore-same-version
-    	  '';
-  # ./update.sh;
 
   meta = {
     changelog = "https://github.com/silverbulletmd/silverbullet/blob/${finalAttrs.version}/website/CHANGELOG.md";
     description = "Open-source, self-hosted, offline-capable Personal Knowledge Management (PKM) web application";
     homepage = "https://silverbullet.md";
     license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [
-      aorith
-      CnTeng
-    ];
+    maintainers = with lib.maintainers; [ aorith ];
     mainProgram = "silverbullet";
   };
 })
