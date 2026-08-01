@@ -39,11 +39,9 @@
     # https://github.com/NixOS/nixos-hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    # https://github.com/xiv3r/Burpsuite-Professional
-    burpsuitepro = {
-      type = "github";
-      owner = "tr3nb0lone";
-      repo = "Burp-Professional";
+    # burp-nix:
+    burpsuite-nix = {
+      url = "github:Red-Flake/burpsuite-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -61,6 +59,7 @@
 
     # Hyprland:
     hyprland.url = "github:hyprwm/Hyprland";
+    systems.url = "github:nix-systems/default";
 
     # Quickshell:
     quickshell = {
@@ -80,6 +79,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # misc:
+    awww.url = "git+https://codeberg.org/LGFae/awww";
+
   };
 
   outputs =
@@ -92,10 +94,11 @@
       spicetify-nix,
       nixos-hardware,
       nix-gaming,
-      burpsuitepro,
       neovim-nightly-overlay,
       nix-snapd,
       hyprland,
+      systems,
+      # burpsuite-nix,
       go-overlay,
       quickshell,
       ...

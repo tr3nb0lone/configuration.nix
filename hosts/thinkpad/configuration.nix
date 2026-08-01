@@ -74,10 +74,11 @@
       "virbr0"
       "tun0"
       "enp0s31f6"
+      "wlp0s20f3"
     ];
     firewall.enable = true;
     extraHosts = ''
-      192.168.122.44 		KALI
+      192.168.122.241 		KALI
     '';
   };
 
@@ -103,6 +104,7 @@
   # misc overlays:
   nixpkgs.overlays = [
     inputs.go-overlay.overlays.default
+    # (import ../../overlays/burpsuite.nix)
   ];
 
   # Enable bluetooth
@@ -150,6 +152,8 @@
           "1.1.1.1"
           "8.8.8.8"
         ];
+        max-concurrent-downloads = 3;
+        max-concurrent-uploads = 3;
         # insecure-registries = "";
       };
     };
@@ -260,7 +264,6 @@
     };
 
     # misc-programs:
-    kdeconnect.enable = true;
     nm-applet.enable = true;
     virt-manager.enable = true;
   };
@@ -358,7 +361,7 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    inputs.burpsuitepro.packages.${stdenv.hostPlatform.system}.default
+    inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
 
     # neovim
     kitty
@@ -430,6 +433,8 @@
       keep-outputs = true;
       keep-derivations = true;
       warn-dirty = false;
+
+      keep-going = true;
 
       auto-optimise-store = true;
       flake-registry = "";

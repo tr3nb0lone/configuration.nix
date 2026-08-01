@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }:
 
@@ -31,12 +32,18 @@ let
   };
 in
 {
+  imports = [ inputs.burpsuite-nix.homeManagerModules.default ];
   home.username = "tr3n";
   home.homeDirectory = "/home/tr3n";
   home.stateVersion = "25.05";
 
   # Git.config
   programs = {
+    firefox = {
+      enable = true;
+      package = pkgs.firefox-bin;
+    };
+
     git = {
       enable = true;
       settings.user.name = "tr3nb0lone";
@@ -112,6 +119,7 @@ in
 
         # misc
         develop = "nix develop -c $SHELL";
+        kssh = "kitten ssh ";
 
       };
     };
@@ -145,6 +153,83 @@ in
       enableZshIntegration = true;
       enableBashIntegration = true;
 
+    };
+
+    burp = {
+      enable = true;
+      proEdition = true;
+      enableJython = true;
+      package = pkgs.callPackage ../pkgs/apps/burpsuite.nix { };
+
+      wordlists = {
+        seclists = "${pkgs.seclists}/share/wordlists/seclists";
+      };
+
+      cliArgs = [
+        "--i-accept-the-license-agreement"
+        "--disable-auto-update"
+        "--disable-check-for-updates-dialog"
+        "--temporary-project"
+      ];
+
+      extensions = {
+        # Loaded by default
+        "403-bypasser".enable = true;
+        "json-web-tokens".enable = true;
+        "js-miner".enable = true;
+        "param-miner".enable = true;
+
+        # custom extension(s)
+        # Just fetch the JAR directly - no derivation needed!
+        "HopLa" = {
+          enable = true;
+          loaded = true;
+          package = pkgs.fetchurl {
+            url = "https://github.com/synacktiv/HopLa/releases/download/v2.2.0/HopLa.jar";
+            hash = "sha256-kD4QEA8HcodITdEBf+B+OgIarLG0WSqog6G0ezIPeMg";
+          };
+          extensiontype = "1";
+        };
+
+        # "JSAnalyzer" = {
+        #   enable = true;
+        #   loaded = true;
+        #   package = builtins.fetchGit {
+        #     name = "https://github.com/jenish-sojitra/JSAnalyzer.git";
+        #     ref = "master";
+        #     rev = "55039799ae31fce1b87443b649de7863e18b53df";
+        #   };
+        #   extensiontype = "1";
+        # };
+
+        "burp-ai-agent" = {
+          enable = true;
+          loaded = false;
+          package = pkgs.fetchurl {
+            url = "https://github.com/six2dez/burp-ai-agent/releases/download/v0.9.0/Custom-AI-Agent-full-0.9.0.jar";
+            hash = "sha256-zYzndz9N7uY6lYCF4cxfzToQKgYTIKNNOrL/HNjAF/s=";
+          };
+          extensiontype = "1";
+        };
+
+        "jxscout-burp" = {
+          enable = true;
+          loaded = true;
+          package = pkgs.fetchurl {
+            url = "https://github.com/francisconeves97/jxscout-burp/releases/download/v1.2.0/jxscout-1.2.0.jar";
+            hash = "sha256-Q+FwRcbAn48N1oyS4n7WJAPntiVtYtB3AeW23Gmn9Z0=";
+          };
+          extensiontype = "1";
+        };
+      };
+
+      # Settings that are deep-merged into the default config
+      settings = {
+        display.user_interface = {
+          look_and_feel = "Dark";
+          font_size = 18;
+        };
+      };
     };
 
   };
@@ -201,24 +286,6 @@ in
       };
     };
 
-    # gtk2.extraConfig = ''
-    #   	 gtk-theme-name="Orchis-Purple-Dark"
-    #   	 gtk-icon-theme-name="Papirus-Dark"
-    #   	 gtk-font-name="Iosevka Hard 13"
-    #   	 gtk-cursor-theme-name="Adwaita"
-    #   	 gtk-cursor-theme-size=0
-    #   	 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
-    #   	 gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
-    #   	 gtk-button-images=0
-    #   	 gtk-menu-images=0
-    #   	 gtk-enable-event-sounds=1
-    #   	 gtk-enable-input-feedback-sounds=1
-    #   	 gtk-xft-antialias=1
-    #   	 gtk-xft-hinting=1
-    #   	 gtk-xft-hintstyle="hintmedium"
-    #   	 gtk-xft-rgba="none"
-    #   	'';
-
     theme = {
       name = "Orchis-Purple-Dark";
       package = pkgs.orchis-theme;
@@ -230,13 +297,6 @@ in
         	gtk-theme-name="Orchis-Purple-Dark"
       '';
     };
-
-    # gtk4.extraConfig = {
-    #   Settings = ''
-    #             gtk-application-prefer-dark-theme=1
-    #     	gtk-theme-name="Orchis-Purple-Dark"
-    #   '';
-    # };
   };
 
   services = {
@@ -246,6 +306,11 @@ in
       automount = true;
       notify = true;
       tray = "always";
+    };
+
+    kdeconnect = {
+      enable = true;
+      indicator = true;
     };
 
   };
@@ -277,6 +342,7 @@ in
     nil
     vscode-json-languageserver
     typescript-language-server
+    rust-analyzer
 
     nixfmt
 
