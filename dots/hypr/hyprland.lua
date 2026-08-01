@@ -13,7 +13,8 @@ hl.monitor({
 
 -- just makes it work whenever you plug a random monitor
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
-
+-- change monitor to high resolution, the last argument is the scale factor
+hl.monitor({ output = "", mode = "highres", position = "auto", scale = "1" })
 -- unscale XWayland
 hl.config({
 	xwayland = {
@@ -57,6 +58,7 @@ hl.env("NIXOS_OZONE_WL", "1")
 hl.env("XCURSOR_THEME", "Adwaita")
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
+-- hl.env("GDK_SCALE", 2)
 
 -----------------------
 ---- LOOK AND FEEL ----
@@ -219,6 +221,7 @@ hl.bind(mainMod .. " + SHIFT + F", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + W", hl.dsp.group.toggle())
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("woomer --monitor eDP-1"))
 hl.bind(mainMod .. " + SPACE", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + V", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + down", hl.dsp.layout("togglesplit")) -- dwindle only
