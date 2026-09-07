@@ -20,8 +20,10 @@
   environment.systemPackages = [
     (pkgs.callPackage ./apps/neovide.nix { })
     (pkgs.callPackage ./apps/silverbullet.nix { })
+    (pkgs.callPackage ./apps/silverbullet-desktop.nix { })
 
     (pkgs.callPackage ./cli/herdr.nix { })
+    (pkgs.callPackage ./cli/tsgo.nix { })
 
   ];
 

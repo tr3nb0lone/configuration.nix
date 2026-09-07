@@ -16,14 +16,16 @@
     virtio-win # replacement of win-virtio
     dnsmasq # VM networking
     phodav # (optional) Share files with guest VMs
-    #   bottles
-    #   lutris
-    #    gnome-boxes # VM management
+    bottles
+    lutris
+    gnome-boxes # VM management
 
     # misc-y misc
     ffmpeg_7-full
     evil-winrm
     netexec
+    hashcat
+    ffuf
 
   ];
 }
