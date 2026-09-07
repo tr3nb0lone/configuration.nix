@@ -8,19 +8,22 @@
   unzip,
 }:
 let
-  version = "2025.12.5";
-
+  # version = "2025.12.5";
+  version = "2026.8";
   productName = "pro";
   productDesktop = "BurpSuite Professional";
-  burpHash = "sha256-G56OUAmuf28hY9rcpQQmAu8C3DjNvKe+xnJnPuMWhqQ=";
+  # burpHash = "sha256-G56OUAmuf28hY9rcpQQmAu8C3DjNvKe+xnJnPuMWhqQ=";
+  burpHash = "sha256-iI8FiM+Co7cNUI3L8HWRGEomJJ44zajqi1po9LWjB4k=";
 
   burpSrc = fetchurl {
     name = "burpsuite.jar";
-
-    # "https://web.archive.org/web/https://portswigger.net/burp/releases/download?product=pro&version=2025.12.5&type=Jar"
     urls = [
-      "https://portswigger.net/burp/releases/download?product=${productName}&version=${version}&type=Jar"
-      "https://web.archive.org/web/https://portswigger.net/burp/releases/download?product=${productName}&version=${version}&type=Jar"
+      # "https://web.archive.org/web/https://portswigger.net/burp/releases/download?product=pro&version=2025.12.5&type=Jar"
+      #   url = "https://portswigger.net/burp/releases/download?product=pro&version=2025.12.5&type=Jar/burpsuite.jar";
+      "https://portswigger.net/burp/releases/download?product=desktop&version=${version}&type=Jar"
+
+      # "https://portswigger.net/burp/releases/download?product=${productName}&version=${version}&type=Jar"
+      # "https://web.archive.org/web/https://portswigger.net/burp/releases/download?product=${productName}&version=${version}&type=Jar"
     ];
     hash = burpHash;
   };
@@ -46,7 +49,7 @@ in
 buildFHSEnv {
   inherit pname version;
 
-  runScript = "${jdk}/bin/java --add-opens=java.desktop/javax.swing=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED --add-opens=java.base/jdk.internal.org.objectweb.asm.Opcodes=ALL-UNNAMED -javaagent:${loaderSrc}/loader.jar -noverify -jar ${burpSrc} &";
+  runScript = "${jdk}/bin/java -Xmx8G -Xms2G --add-opens=java.desktop/javax.swing=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED --add-opens=java.base/jdk.internal.org.objectweb.asm.Opcodes=ALL-UNNAMED -javaagent:${loaderSrc}/loader.jar -noverify -jar ${burpSrc} &";
 
   targetPkgs =
     pkgs: with pkgs; [
@@ -65,16 +68,17 @@ buildFHSEnv {
       udev
       libxkbcommon
       libgbm
+      libglvnd
       nspr
       nss
       pango
-      xorg.libX11
-      xorg.libxcb
-      xorg.libXcomposite
-      xorg.libXdamage
-      xorg.libXext
-      xorg.libXfixes
-      xorg.libXrandr
+      libx11
+      libxcb
+      libxcomposite
+      libxdamage
+      libxext
+      libxfixes
+      libxrandr
     ];
 
   extraInstallCommands = ''

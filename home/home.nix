@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   inputs,
   ...
 }:
@@ -53,12 +54,6 @@ in
           insteadOf = "https://github.com/tr3nb0lone/*";
         };
       };
-    };
-
-    # ewwww:
-    eww = {
-      enable = true;
-      enableZshIntegration = true;
     };
 
     fzf = {
@@ -157,7 +152,7 @@ in
 
     burp = {
       enable = true;
-      proEdition = true;
+      # proEdition = true; # just refuses to work!
       enableJython = true;
       package = pkgs.callPackage ../pkgs/apps/burpsuite.nix { };
 
@@ -169,6 +164,7 @@ in
         "--i-accept-the-license-agreement"
         "--disable-auto-update"
         "--disable-check-for-updates-dialog"
+        "--suppress-jre-check"
         "--temporary-project"
       ];
 
@@ -204,7 +200,7 @@ in
 
         "burp-ai-agent" = {
           enable = true;
-          loaded = false;
+          loaded = true;
           package = pkgs.fetchurl {
             url = "https://github.com/six2dez/burp-ai-agent/releases/download/v0.9.0/Custom-AI-Agent-full-0.9.0.jar";
             hash = "sha256-zYzndz9N7uY6lYCF4cxfzToQKgYTIKNNOrL/HNjAF/s=";
@@ -214,7 +210,7 @@ in
 
         "jxscout-burp" = {
           enable = true;
-          loaded = true;
+          loaded = false;
           package = pkgs.fetchurl {
             url = "https://github.com/francisconeves97/jxscout-burp/releases/download/v1.2.0/jxscout-1.2.0.jar";
             hash = "sha256-Q+FwRcbAn48N1oyS4n7WJAPntiVtYtB3AeW23Gmn9Z0=";
@@ -234,6 +230,10 @@ in
 
   };
 
+  # Burp 2026.x fails to initialize top-level tools with the fully generated
+  # UserConfig.json from burpsuite-nix. Let Burp manage this file itself.
+  # home.file.".BurpSuite/UserConfig.json".enable = lib.mkForce false;
+
   # Home path:
   home.sessionPath = [
     "$HOME/.local/bin"
@@ -249,6 +249,7 @@ in
     NIXOS_OZONE_WL = 1;
     EDITOR = "nvim";
     XCURSOR_THEME = "Adwaita";
+    MOZ_ENABLE_WAYLAND = 1;
   };
 
   xdg.autostart.enable = true;
@@ -341,7 +342,6 @@ in
     markdown-oxide
     nil
     vscode-json-languageserver
-    typescript-language-server
     rust-analyzer
 
     nixfmt
