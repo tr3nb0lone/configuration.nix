@@ -24,6 +24,7 @@
 
     (pkgs.callPackage ./cli/herdr.nix { })
     (pkgs.callPackage ./cli/tsgo.nix { })
+    (pkgs.callPackage ./cli/tatr.nix { })
 
   ];
 
