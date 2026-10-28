@@ -3,7 +3,7 @@
 
   inputs = {
     # nixpkgs
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Home-Manager:
     home-manager = {
@@ -57,8 +57,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Hyprland:
-    hyprland.url = "github:hyprwm/Hyprland";
     systems.url = "github:nix-systems/default";
 
     # Quickshell:
@@ -82,6 +80,11 @@
     # misc:
     awww.url = "git+https://codeberg.org/LGFae/awww";
 
+    # hermes:
+    hermes-agent.url = "github:NousResearch/hermes-agent";
+
+    # claude:
+    claude-desktop.url = "github:aaddrick/claude-desktop-debian";
   };
 
   outputs =
@@ -96,8 +99,9 @@
       nix-gaming,
       neovim-nightly-overlay,
       nix-snapd,
-      hyprland,
       systems,
+      hermes-agent,
+      claude-desktop,
       # burpsuite-nix,
       go-overlay,
       quickshell,
@@ -118,7 +122,10 @@
             home-manager.nixosModules.home-manager
 
             {
-              imports = [ inputs.home-manager.nixosModules.home-manager ];
+              imports = [
+                inputs.home-manager.nixosModules.home-manager
+              ];
+
               networking.hostName = hostName;
               home-manager = {
                 useGlobalPkgs = true;
@@ -149,6 +156,7 @@
           spicetify-nix.nixosModules.spicetify
           nix-snapd.nixosModules.default
           nix-ld.nixosModules.nix-ld
+          hermes-agent.nixosModules.default
         ];
 
         # INFO: you can also waste more time by adding more hosts!
