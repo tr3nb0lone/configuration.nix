@@ -1,26 +1,29 @@
 {
   stdenv,
+  fetchFromGitHub,
 }:
 
 stdenv.mkDerivation {
   pname = "tatr";
-  version = "2.9.0";
+  version = "0.1";
 
-  src = fetchGit {
-    url = "https://github.com/tsoding/tatr.git";
+  src = fetchFromGitHub {
+    owner = "tsoding";
+    repo = "tatr";
     rev = "49fc0428d560ab24c67df0c8fdb1cb1775e9399b";
-    ref = "main";
+    hash = "sha256-Srwf5NxmlMKKcs68Q9IbQMsQD3rSgdS4nBjs/hn3wus=";
   };
 
   buildPhase = ''
-    runHook preInstall
+    runHook preBuild
     cc -o nob nob.c
+    ./nob
+    runHook postBuild
   '';
 
   installPhase = ''
-    mkdir -p $out/bin
-    cp $src/nob $out/bin/
+    runHook preInstall
+    install -Dm755 build/tatr $out/bin/tatr
     runHook postInstall
   '';
-
 }

@@ -24,10 +24,9 @@
     zoxide
     sesh
     docker-compose
-    # podman-compose
-    # podman-desktop
     git
     gh
+    jdk
 
     # DB related:
     sqlitebrowser

@@ -8,11 +8,9 @@
   unzip,
 }:
 let
-  # version = "2025.12.5";
   version = "2026.8";
   productName = "pro";
   productDesktop = "BurpSuite Professional";
-  # burpHash = "sha256-G56OUAmuf28hY9rcpQQmAu8C3DjNvKe+xnJnPuMWhqQ=";
   burpHash = "sha256-iI8FiM+Co7cNUI3L8HWRGEomJJ44zajqi1po9LWjB4k=";
 
   burpSrc = fetchurl {
@@ -40,9 +38,7 @@ let
     desktopName = productDesktop;
     comment = description;
     categories = [
-      "Development"
       "Security"
-      "System"
     ];
   };
 in
@@ -93,7 +89,6 @@ buildFHSEnv {
     # Create loader executable
     mkdir -p $out/bin
     echo "#!${pkgs.bash}/bin/bash" > $out/bin/loader
-    echo "\"${jdk}/bin/java\" -jar \"$out/share/loader.jar\" \"\$@\"" >> $out/bin/loader
     chmod +x $out/bin/loader
 
     cp -r ${desktopItem}/share/applications $out/share

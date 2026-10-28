@@ -70,12 +70,11 @@
     zenity
     restic
     rsync
-    handbrake
+    # handbrake
     qdirstat
     lsof
     firefox-bin
     # libreoffice-bin
-    libreoffice-qt-fresh
     gnome-disk-utility
     filezilla
 
@@ -85,7 +84,8 @@
     rdesktop
     remmina
 
-    lm_sensors
+    pandoc
+    python313Packages.weasyprint
 
   ];
 }

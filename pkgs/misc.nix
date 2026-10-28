@@ -5,8 +5,8 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # Wine:
-    wineWowPackages.stable
-    winetricks
+    # winetricks
+    # wineWow64Packages.stable
     geekbench
     iproute2
 
@@ -21,7 +21,7 @@
     gnome-boxes # VM management
 
     # misc-y misc
-    ffmpeg_7-full
+    # ffmpeg
     evil-winrm
     netexec
     hashcat
