@@ -154,15 +154,9 @@ stdenv.mkDerivation (finalAttrs: {
       UI and is extended through workspace plugins.
     '';
     homepage = "https://github.com/deepseek-ai/deepseek-harness";
-    license = lib.licenses.mit;
     mainProgram = "dsh";
     platforms = [
-      "aarch64-linux"
       "x86_64-linux"
-    ];
-    maintainers = with lib.maintainers; [
-      Dietr1ch
-      tlvince
     ];
   };
 })
