@@ -7,7 +7,7 @@
 
 let
   pname = "silverbullet-desktop";
-  version = "2.11.0";
+  version = "2.12.1";
 
   desktopItem = makeDesktopItem {
     name = pname;
@@ -21,7 +21,7 @@ let
   };
 
   src = fetchurl {
-    url = "https://releases.silverbullet.plus/releases/${version}/SilverBullet_x86_64.AppImage";
+    url = "https://release.silverbullet.md/electron/artifacts/2.12.1/linux/x64/SilverBullet-${version}-linux-x86_64.AppImage";
     hash = "sha256-GtiLG6cnZIwwMGjINYEzboCTi+0weUX7zvrtmgA7y4c=";
   };
 in

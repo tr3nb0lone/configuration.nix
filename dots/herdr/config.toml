@@ -1,0 +1,107 @@
+
+onboarding = false
+# the config is clearly
+# the same as what I had with tmux
+
+
+[theme]
+# Built-in themes: 
+# catppuccin, terminal, tokyo-night, dracula, nord, gruvbox, one-dark, solarized, kanagawa, rose-pine, vesper
+name = "tokyo-night"
+auto_switch = false
+
+
+# Override individual color tokens on top of the base theme.
+# Accepts: hex (#rrggbb), named colors, rgb(r,g,b), or panel_bg = "reset"
+# [theme.custom]
+# panel_bg = "reset"
+# accent = "#f5c2e7"
+# red = "#ff6188"
+# green = "#a6e3a1"
+
+[terminal]
+default_shell = ""
+shell_mode = "auto"
+new_cwd = "follow"
+
+[update]
+channel = "stable"
+version_check = true
+
+# Prefix-mode actions
+[keys]
+prefix = "ctrl+a"
+help = "prefix+?"
+settings = "prefix+:"
+detach = "prefix+d"
+reload_config = "prefix+shift+r"
+workspace_picker = "prefix+w"
+goto = "prefix+s"
+rename_workspace = "prefix+shift+w"
+close_workspace = "prefix+shift+d"
+previous_workspace = "alt+["
+next_workspace = "alt+]"
+new_tab = "prefix+c"
+rename_tab = "prefix+,"
+previous_tab = "prefix+a"
+close_tab = "prefix+x"
+rename_pane = "prefix+shift+p"
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+last_pane = "prefix+p"
+split_vertical = "prefix+v"
+split_horizontal = "prefix+minus"
+close_pane = "prefix+shift+x"
+zoom = "prefix+z"
+resize_mode = "prefix+r"
+toggle_sidebar = "alt+b"
+
+# Custom commands use the same binding syntax.
+[[keys.command]]
+key = "prefix+g"
+type = "pane" # can be shell
+command = "lazygit"
+
+[[keys.command]]
+key = "prefix+b"
+type = "pane"
+command = "btop"
+
+[ui]
+sidebar_width = 20
+confirm_close = true
+prompt_new_tab_name = true
+pane_borders = true
+pane_gaps = false # similar to tee-mee-you-cks
+
+# Accent color for highlights, borders, and navigation UI.
+# Accepts: hex (#89b4fa), named colors (cyan, blue, magenta), or rgb(r,g,b)
+# accent = "magenta"
+
+[ui.toast]
+delay_seconds = 2
+
+[ui.toast.herdr]
+position = "top-right"
+
+[ui.toast.clipboard]
+enabled = true
+position = "top-right"
+
+[ui.sound]
+enabled = false
+
+[session] # NO, I do not want to restore agent sessions, fuck-off!
+resume_agents_on_restore = false
+
+[remote]
+manage_ssh_config = true
+
+[experimental]
+kitty_graphics = true
+pane_history = false
+
+[advanced]
+scrollback_limit_bytes = 10000000
