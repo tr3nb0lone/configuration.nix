@@ -12,7 +12,7 @@ hl.monitor({
 })
 
 -- just makes it work whenever you plug a random monitor
-hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
+hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 2 })
 -- change monitor to high resolution, the last argument is the scale factor
 hl.monitor({ output = "", mode = "highres", position = "auto", scale = "1" })
 -- unscale XWayland
@@ -33,7 +33,6 @@ local menu = "fuzzel -b 160e14ff -C 00000000 -t FFFFFFFF -s FFFFFFFF --placehold
 local lock = "hyprlock"
 local browser = "firefox"
 local keepass = "keepassxc --minimized"
-local bar = "waybar"
 
 -------------------
 ---- AUTOSTART ----
@@ -42,8 +41,6 @@ local bar = "waybar"
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 hl.on("hyprland.start", function()
-	-- hl.exec_cmd("nm-applet")
-	-- hl.exec_cmd(bar)
 	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd(keepass)
 end)
@@ -202,6 +199,7 @@ hl.gesture({
 	direction = "up",
 	action = function()
 		hl.notification.create({ text = "Stop it! Get some help.", duration = 5000, icon = "ok" })
+		-- hl.dsp.window.fullscreen({ action = "toggle" })
 	end,
 })
 
@@ -324,3 +322,6 @@ hl.window_rule({
 	move = "20 monitor_h-120",
 	float = true,
 })
+
+-- DMS Include Configs
+require("dms.cursor")

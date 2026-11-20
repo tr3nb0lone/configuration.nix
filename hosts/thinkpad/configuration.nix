@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   inputs,
   ...
 }:
@@ -11,6 +12,7 @@
     inputs.dms.nixosModules.dank-material-shell
   ];
 
+  security.pki.certificateFiles = [ ./mssp-dev-ca.crt ];
   hardware.enableAllFirmware = true;
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
@@ -30,7 +32,7 @@
     # https://wiki.nixos.org/wiki/Plymouth
     # Enable "Silent boot"
     consoleLogLevel = 3;
-    initrd.verbose = false;
+    # initrd.verbose = false;
     kernelParams = [
       "quiet"
       "splash"
@@ -51,12 +53,12 @@
     tmpfsSize = "300%";
   };
 
-  # Nnetworking:
+  # Networking:
   networking = {
     networkmanager.enable = true;
 
     # Disable NetworkManager's internal DNS resolution
-    networkmanager.dns = "none";
+    networkmanager.dns = lib.mkForce "none";
 
     # These options are unnecessary when managing DNS ourselves
     useDHCP = false;
@@ -66,7 +68,7 @@
     nameservers = [
       "1.1.1.1"
       "8.8.8.8"
-      # "100.100.100.100" # tailscale
+      "100.100.100.100" # tailscale
     ];
 
     # but I trust everything!
@@ -75,10 +77,16 @@
       "tun0"
       "enp0s31f6"
       "wlp0s20f3"
+      "tailscale0"
     ];
     firewall.enable = true;
     extraHosts = ''
-      192.168.122.241 		KALI
+      192.168.122.241 	     KALI
+      192.168.1.2               zeru.beta
+      192.168.1.3               henok.beta
+      192.168.1.6               eden.beta
+      192.168.1.41 	     keycloak.betatechhub.com enroll.siem-pilot.betatechhub.com 
+      192.168.1.41              enroll.siem-pilot.betatechhub.com siem-pilot.betatechhub.com siem.beta 
     '';
   };
 
@@ -104,7 +112,8 @@
   # misc overlays:
   nixpkgs.overlays = [
     inputs.go-overlay.overlays.default
-    # (import ../../overlays/burpsuite.nix)
+    inputs.claude-desktop.overlays.default
+    (import ../../overlays/burpsuite.nix)
   ];
 
   # Enable bluetooth
@@ -121,6 +130,7 @@
       "libvirtd"
       "podman"
       "audio"
+      "nordvpn"
     ];
     packages = with pkgs; [
       tree
@@ -154,7 +164,7 @@
         ];
         max-concurrent-downloads = 3;
         max-concurrent-uploads = 3;
-        # insecure-registries = "";
+        # insecure-registries = [ "" ];
       };
     };
   };
@@ -189,15 +199,6 @@
       package = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
     };
 
-    # nixld - obsolete since nix-ld dev is enabled
-    # nix-ld = {
-    #   enable = true;
-    #   libraries = with pkgs; [
-    #     libsecret
-    #
-    #   ];
-    # };
-
     # Direnv:
     direnv = {
       enable = true;
@@ -221,10 +222,8 @@
     # Hypr
     hyprland = {
       enable = true;
-
-      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-      portalPackage =
-        inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+      package = pkgs.hyprland;
+      portalPackage = pkgs.xdg-desktop-portal-hyprland;
 
       withUWSM = true;
       xwayland.enable = true;
@@ -246,25 +245,17 @@
     };
 
     # DMS
-    dms-shell = {
+    dux-shell = {
       enable = true;
-
       systemd = {
         enable = true;
+        target = "graphical-session.target";
         restartIfChanged = true;
       };
-
-      # Core features
-      enableSystemMonitoring = true;
-      enableVPN = true;
-      enableDynamicTheming = true;
-      enableAudioWavelength = true;
-      enableCalendarEvents = true;
-      enableClipboardPaste = true;
     };
 
     # misc-programs:
-    nm-applet.enable = true;
+    nm-applet.enable = false;
     virt-manager.enable = true;
   };
 
@@ -299,19 +290,11 @@
       alsa.support32Bit = true;
     };
 
-    # snap:
-    snap.enable = false;
-
     # enable fingerprint
     fprintd.enable = false;
-
-    # picom
     picom.enable = false;
 
-    blueman = {
-      enable = true;
-      # withApplet = true;
-    };
+    blueman.enable = false;
 
     # Enable touchpad
     libinput.enable = true;
@@ -324,7 +307,22 @@
     };
 
     # Display manager:
-    displayManager.ly.enable = true;
+    displayManager.ly = {
+      enable = true;
+      settings = {
+        bg = "0x000c0c0c";
+        fg = "0x00ffffff";
+        border_fg = "0x00353535";
+        error_bg = "0x00080808";
+        error_fg = "0x01ffffff";
+        full_color = true;
+        animation = "matrix";
+        clock = "%H:%M";
+        edge_margin = 1;
+      };
+    };
+
+    nordvpn.enable = true;
 
     # misc virtualization
     qemuGuest.enable = true;
@@ -346,7 +344,11 @@
     # Tailscale
     tailscale = {
       # Enable tailscale at startup
-      enable = false;
+      enable = true;
+      extraUpFlags = [
+        "--ssh"
+        "--accept-routes"
+      ];
     };
 
   };
@@ -362,8 +364,8 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
+    claude-desktop
 
-    # neovim
     kitty
     rofi
     tmux
@@ -378,15 +380,19 @@
     obs-studio
     chromium
     vlc
+    mpv
     pavucontrol
     pulseaudio
-    dunst
+    # dunst
     bluez
     lxappearance
     bluez-tools
     font-awesome
     nerd-fonts.jetbrains-mono
     cachix
+    obsidian
+    nordvpn
+    herdr
 
   ];
 
@@ -423,6 +429,32 @@
     };
   };
 
+  # systemd units:
+  systemd.user.services = {
+    dsh-web = {
+      description = "DeepSeek Harness web service";
+      after = [
+        "network.target"
+        "systemd-tmpfiles-setup.service"
+      ];
+      wantedBy = [ "multi-user.target" ];
+      # environment = {
+      #   # DSH_HOME = "/home/tr3n/tmp/";
+      # };
+      path = [
+        pkgs.deepseek-harness
+      ];
+
+      serviceConfig = {
+        ExecStart = "${pkgs.deepseek-harness}/bin/dsh --profile web --no-open";
+        Restart = "on-failure";
+        RestartSec = "5s";
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
+  };
+
   nix = {
     channel.enable = false;
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
@@ -440,9 +472,15 @@
       flake-registry = "";
       tarball-ttl = 604800; # 7 days in seconds
 
-      substituters = [ "https://hyprland.cachix.org" ];
-      trusted-substituters = [ "https://hyprland.cachix.org" ];
-      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+      substituters = [
+        # "https://hyprland.cachix.org"
+        "https://nix-community.cachix.org"
+      ];
+      trusted-substituters = [ "https://nix-community.cachix.org" ];
+      trusted-public-keys = [
+        # "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
       trusted-users = [
         "root"
         "@wheel"
@@ -455,5 +493,7 @@
     };
   };
 
-  system.stateVersion = "26.05";
+  # misc etc:
+  # environment.etc."ly/blackhole.dur".source = ../../dots/blackhole.dur;
+  system.stateVersion = "26.11";
 }

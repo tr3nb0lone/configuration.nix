@@ -1,5 +1,7 @@
 rebuild:
 	sudo nixos-rebuild switch --flake .#thinkpad
+beta:
+	sudo nixos-rebuild switch --flake .#beta
 info:
 	nix flake metadata
 warn:

@@ -3,7 +3,8 @@
 
   inputs = {
     # nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst";
 
     # Home-Manager:
     home-manager = {
@@ -52,11 +53,6 @@
     # https://github.com/fufexan/nix-gaming
     nix-gaming.url = "github:fufexan/nix-gaming";
 
-    nix-snapd = {
-      url = "github:nix-community/nix-snapd";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     systems.url = "github:nix-systems/default";
 
     # Quickshell:
@@ -73,7 +69,7 @@
 
     # DMS:
     dms = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
+      url = "github:duxlabs-dev/dux-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -98,11 +94,9 @@
       nixos-hardware,
       nix-gaming,
       neovim-nightly-overlay,
-      nix-snapd,
       systems,
       hermes-agent,
       claude-desktop,
-      # burpsuite-nix,
       go-overlay,
       quickshell,
       ...
@@ -154,9 +148,13 @@
         # per-host config:
         thinkpad = mkHost "thinkpad" [
           spicetify-nix.nixosModules.spicetify
-          nix-snapd.nixosModules.default
           nix-ld.nixosModules.nix-ld
           hermes-agent.nixosModules.default
+        ];
+
+        beta = mkHost "beta" [
+          spicetify-nix.nixosModules.spicetify
+          nix-ld.nixosModules.nix-ld
         ];
 
         # INFO: you can also waste more time by adding more hosts!

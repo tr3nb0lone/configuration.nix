@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  lib,
   inputs,
   ...
 }:
@@ -21,22 +20,23 @@ let
     kitty = "kitty";
     ghostty = "ghostty";
     alacritty = "alacritty";
-    picom = "picom";
     hypr = "hypr";
     yazi = "yazi";
     tmux = "tmux";
-    dunst = "dunst";
     waybar = "waybar";
     neovide = "neovide";
     polybar = "polybar";
-    quickshell = "quickshell";
+    dunst = "dunst";
+    # picom = "picom";
+    # quickshell = "quickshell";
   };
 in
 {
   imports = [ inputs.burpsuite-nix.homeManagerModules.default ];
   home.username = "tr3n";
   home.homeDirectory = "/home/tr3n";
-  home.stateVersion = "25.05";
+  home.stateVersion = "26.11";
+  home.enableNixpkgsReleaseCheck = false;
 
   # Git.config
   programs = {
@@ -170,7 +170,7 @@ in
 
       extensions = {
         # Loaded by default
-        "403-bypasser".enable = true;
+        "403-bypasser".enable = false;
         "json-web-tokens".enable = true;
         "js-miner".enable = true;
         "param-miner".enable = true;
@@ -202,8 +202,8 @@ in
           enable = true;
           loaded = true;
           package = pkgs.fetchurl {
-            url = "https://github.com/six2dez/burp-ai-agent/releases/download/v0.9.0/Custom-AI-Agent-full-0.9.0.jar";
-            hash = "sha256-zYzndz9N7uY6lYCF4cxfzToQKgYTIKNNOrL/HNjAF/s=";
+            url = "https://github.com/six2dez/burp-ai-agent/releases/download/v1.0.0/Custom-AI-Agent-full-1.0.0.jar";
+            hash = "sha256-zZZBV9m4zWH8sB7R5OunGnP6s/U8+Xg4+uljmaC0StQ=";
           };
           extensiontype = "1";
         };
@@ -242,6 +242,7 @@ in
     "$HOME/.opencode/bin"
     "$HOME/flutter/flutter/bin"
     "$HOME/.bun/bin"
+    "$HOME/.npm-global/bin"
   ];
 
   # env:
@@ -315,8 +316,8 @@ in
     };
 
   };
-  # MISC
-  # wayland.windowManager.hyprland.systemd.enable = false;
+
+  # home.file."${config.home.homeDirectory}/.config/herdr/config.toml" = ../dots/herdr/config.toml;
   home.packages = with pkgs; [
     ripgrep
     fd
@@ -326,7 +327,6 @@ in
     deno
     lazygit
     lazydocker
-    handbrake
     tor-browser
     material-design-icons
     gnome-themes-extra
@@ -354,7 +354,7 @@ in
     hyprpaper
     hyprlock
     hyprshell
-    hyprpanel
+    wayle
     wl-clipboard
     fuzzel
     waybar
