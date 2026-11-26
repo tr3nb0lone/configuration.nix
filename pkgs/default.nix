@@ -24,6 +24,7 @@
     (pkgs.callPackage ./apps/copilot.nix { })
     (pkgs.callPackage ./apps/aether.nix { })
     (pkgs.callPackage ./apps/dsh/dsh.nix { })
+    (pkgs.callPackage ./apps/caido.nix { })
 
     (pkgs.callPackage ./cli/tsgo.nix { })
     (pkgs.callPackage ./cli/tatr.nix { })
